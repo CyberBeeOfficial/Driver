@@ -6,14 +6,14 @@
 class DataReceiver {
 
 public:
-    DataReceiver(SerialPort& serialPort) : serialPort_(serialPort) {}
+    DataReceiver(SerialPort* serialPort) : serialPort_(serialPort) {}
 
-    void readData(SerialPort& serialPort);
+    void readData();
     void ParseAndPrintMsg(const std::string& message);
-    void updateBaudRate(SerialPort& serialPort, unsigned int newBaudRate);
+    void updateBaudRate(unsigned int newBaudRate);
 
 private:
-    SerialPort& serialPort_;
+    SerialPort* serialPort_;
 };
 
 

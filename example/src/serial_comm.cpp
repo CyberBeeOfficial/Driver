@@ -1,32 +1,68 @@
 #include "../include/serial_comm.hpp"
-#include <boost/asio.hpp>
-#include <mutex>
-#include <string>
+// serial_comm.cpp
+#include <iostream>
+// #include "serial_comm.hpp"
 
-
-//constructor for the object of type SerialPort
 SerialPort::SerialPort(const std::string& port, unsigned int baud_rate)
-    : io_service(), serial(io_service, port), mtx(std::make_mutex()) {
-    serial.set_option(boost::asio::serial_port_base::baud_rate(baud_rate));
+    : io_service(),
+      serial(io_service),
+      port(port),
+      baud_rate(baud_rate),
+      should_run(false)
+{
+    // Constructor doesn't open the port immediately anymore
 }
 
+SerialPort::~SerialPort()
+{
+    CloseSerialConnection();  // Ensure the connection is closed on destruction
+}
 
-// open serial port 
-void SerialPort::OpenSerialConnection(std::string port, boost::system::error_code& error)
-{   
-    std::thread connectThread([this, port, &error]() {
+void SerialPort::StartCommunication()
+{
+    should_run.store(true);
+    communication_thread = std::thread(&SerialPort::Run, this);
+}
 
-    // Specify the port name and error code variable
-    std::string port_name = "/dev/ttyAMA0"; // Replace with your actual port name
-    boost::system::error_code error;
-
-    // Open the port with desired options
-    serial.open(port_name, error);
-
-    if (error) {
-    // Handle error opening the port (e.g., print error message, exit)
-    std::cerr << "Error opening serial port: " << error.message() << std::endl;
+void SerialPort::CloseSerialConnection()
+{
+    should_run.store(false);
+    if (communication_thread.joinable())
+    {
+        communication_thread.join();  // Wait for the thread to finish
     }
-    });
-    connectThread.join();
+    boost::system::error_code ec;
+    if (serial.is_open())
+    {
+        serial.close(ec);
+        if (ec)
+        {
+            std::cerr << "Error closing serial port: " << ec.message()
+                      << std::endl;
+        }
+    }
+}
+
+void SerialPort::Run()
+{
+    boost::system::error_code ec;
+    serial.open(port, ec);
+    if (ec)
+    {
+        std::cerr << "Error opening serial port: " << ec.message() << std::endl;
+        return;
+    }
+    serial.set_option(boost::asio::serial_port_base::baud_rate(baud_rate), ec);
+    if (ec)
+    {
+        std::cerr << "Error setting baud rate: " << ec.message() << std::endl;
+        return;
+    }
+
+    while (should_run.load())
+    {
+        // Perform serial port communication here (e.g., read/write)
+        // Make sure to handle errors and potentially break the loop if
+        // necessary
+    }
 }

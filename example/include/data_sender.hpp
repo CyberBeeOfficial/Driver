@@ -6,11 +6,11 @@
 class DataSender {
 
 public:
-    DataSender(SerialPort& serialPort) : serialPort_(serialPort) {}
+    DataSender(SerialPort* serialPort) : serialPort_(serialPort) {}
 
     void WriteData(SerialPort& serialPort);
 private:
-    SerialPort& serialPort_;
+    SerialPort* serialPort_;
 };
 
 

@@ -1,5 +1,5 @@
-#ifndef POSE_MESSAGE_H
-#define POSE_MESSAGE_H
+#ifndef POSE_MESSAGE_HPP
+#define POSE_MESSAGE_HPP
 #include <string>
 #include <iostream>
 #include <sstream> // For std::ostringstream
