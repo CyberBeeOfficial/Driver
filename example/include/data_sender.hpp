@@ -3,15 +3,16 @@
 
 #include "serial_comm.hpp"
 
-class DataSender {
+class DataSender
+{
+   public:
+    explicit DataSender(SerialPort* serialPort);
 
-public:
-    DataSender(SerialPort* serialPort) : serialPort_(serialPort) {}
+    void SendCommand(uint8_t command, const std::string& data);
 
-    void WriteData(SerialPort& serialPort);
-private:
-    SerialPort* serialPort_;
+   private:
+    SerialPort* serialPort;
+    uint16_t calculateCheckSum(const std::string& message);
 };
 
-
-#endif // DATA_SENDER_HPP
+#endif  // DATA_SENDER_HPP

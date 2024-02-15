@@ -17,6 +17,14 @@ int calculateCheckSum(std::string& message, SenderTag) {
     // ... do something specific for Sender
 }
 
+
+
+
+
+
+
+
+
 template <class T>
 int calculateCheckSum(std::string& message, ReceiverTag) {
     // ... do something specific for Receiver

@@ -1,10 +1,23 @@
 #include <csignal>
 #include <iostream>
 #include <memory>
+#include <thread>  // Include the thread header
 
+#include "../include/data_receiver.hpp"
+#include "../include/data_sender.hpp"
 #include "../include/serial_comm.hpp"  // Adjust the include path according to your project structure
-#include "serial_comm.cpp"
 std::unique_ptr<SerialPort> globalSerialPort;
+std::unique_ptr<DataReceiver> data_receiver;
+std::unique_ptr<DataSender> data_sender;
+
+enum UserCommand
+{
+    Test = 0x20,
+    SetDivisionRate = 0x22,
+    Confirm = 0x23,
+    ChangeBaudRate = 0x30
+    // Add more commands as needed
+};
 
 void signalHandler(int signum)
 {
@@ -14,9 +27,30 @@ void signalHandler(int signum)
     // No explicit call to close the serial port is needed here
     // because it will be handled by the SerialPort destructor.
 
+    // Signal DataReceiver to stop
+    if (data_receiver)
+    {
+        data_receiver->stop();
+    }
     // Terminate program
     exit(signum);
 }
+
+void readDataThread(DataReceiver* data_receiver)
+{
+    while (true)
+    {
+        data_receiver->readData();
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+}
+
+// Global variables
+uint16_t division_rate = 0;
+uint8_t baud_rate_index = 4;  // Default baud rate index for 115200
+bool testing_baud = false;
+int baud_rates[5] = { 9600, 19200, 38400, 57600, 115200 };  // Baud rates list
+bool listen_only = false;
 
 int main()
 {
@@ -25,44 +59,84 @@ int main()
 
     std::string portName = "/dev/ttyAMA0";  // ttyAMAO is the port on Pi26
     unsigned int baudRate = 115200;         // current baud rate for pi26
-
+    char command_input;
     // Create an instance of SerialPort
     globalSerialPort = std::make_unique<SerialPort>(portName, baudRate);
 
     // Start communication in a separate thread
-    globalSerialPort->StartCommunication();
+    globalSerialPort->OpenSerialConnection();
 
-    // Create an instance of DataReceiver
-    // DataReceiver data_receiver(globalSerialPort.get());
-    // DataSender data_sender(globalSerialPort.get());
+    data_receiver = std::make_unique<DataReceiver>(globalSerialPort.get());
+    data_sender = std::make_unique<DataSender>(globalSerialPort.get());
 
-    // Your application logic here
-    // For example, keep the program running or perform other tasks
-    // ...
-
-    // Use a method from DataReceiver
-    // data_receiver.readData(serialPort);
-
-    // Use the calculateChecksum function with SenderTag
-    // std::string message = "example message";
-    // int senderChecksum = calculateCheckSum<DataReceiver>(message,
-    // SenderTag{});
-
-    // Use the calculateChecksum function with ReceiverTag
-    // int receiverChecksum = calculateCheckSum<DataReceiver>(message,
-    // ReceiverTag{});
-
-    // Use other methods or functions as needed
+    // Create a thread for reading data and another for extracting it from buff
+    std::thread readThread(&DataReceiver::readData, data_receiver.get());
+    std::thread processThread(&DataReceiver::processData, data_receiver.get());
 
     // Wait for a signal (e.g., SIGINT) to terminate the program
     // This loop is just a placeholder; adjust according to your program's needs
     while (true)
     {
+        if (globalSerialPort->IsSerialConnectionOpen())
+        {
+            try
+            {
+                std::cout << "Enter Command:" << std::endl;
+                std::cin >> command_input;
+                switch (command_input)
+                {
+                    case 't':
+                        /* TODO: SET DEVISION RATE AND SEND IT */
+                        division_rate =
+                            (division_rate + 1) % 6;  // cycle through 0 to 5
+                        data_sender->SendCommand(SetDivisionRate,
+                                                 std::to_string(division_rate));
+                        std::cout << "Set Devision Rate to " << division_rate
+                                  << std::endl;
+
+                        break;
+
+                    case 'y':
+                        /* TODO: SET NEW BAUD RATE AND SEND IT */
+                        baud_rate_index =
+                            (baud_rate_index + 1) %
+                            (sizeof(baud_rates) / sizeof(baud_rates[0]));
+                        data_sender->SendCommand(
+                            ChangeBaudRate, std::to_string(baud_rate_index));
+                        std::cout << "Baud Rate Changed to: "
+                                  << baud_rates[baud_rate_index] << std::endl;
+                        break;
+
+                    case 'z':
+                        /* TODO: START BAUD RATE TEST - requires seperate
+                         * function to test message send */
+                        data_sender->SendCommand(Test, std::to_string(0));
+                        std::cout << "Baud Rate Test start " << std::endl;
+                        break;
+
+                    default:
+                        std::cout << "Toggle listen-only mode " << std::endl;
+
+                        break;
+                }
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+            }
+        }
+
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
     // Cleanup is handled automatically by the unique_ptr and SerialPort
     // destructor
+
+    // data_receiver.stop();
+
+    // Wait for the threads to finish
+    readThread.join();
+    processThread.join();
 
     return 0;
 }

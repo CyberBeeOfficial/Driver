@@ -2,38 +2,36 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build my project",
+            "label": "C/C++: g++ build active file",
             "type": "shell",
-            "command": "g++",
+            "command": "/usr/bin/g++",
             "args": [
+                "-std=c++17",
                 "-g",
                 "${workspaceFolder}/example/src/driver_main.cpp",
                 "${workspaceFolder}/example/src/serial_comm.cpp",
-                // Add other .cpp files as needed
+                "${workspaceFolder}/example/src/data_receiver.cpp",
+                "${workspaceFolder}/example/src/data_sender.cpp",
                 "-o",
-                "${workspaceFolder}/example/bin/myDriverExecutable",
+                "${workspaceFolder}/example/bin/CppDriver",
                 "-lboost_system",
                 "-pthread"
             ],
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": true // Marked as default build task
             },
-            "problemMatcher": {
-                "owner": "cpp",
-                "fileLocation": [
-                    "relative",
-                    "${workspaceFolder}"
-                ],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
-            }
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "compiler: /usr/lib/ccache/g++"
+        },
+        {
+            "label": "Run Cpp Driver Project",
+            "type": "shell",
+            "command": "${workspaceFolder}/example/bin/CppDriver",
+            "group": "test",
+            "problemMatcher": []
         }
     ]
 }
