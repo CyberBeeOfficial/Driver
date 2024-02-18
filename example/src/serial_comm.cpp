@@ -1,5 +1,17 @@
-#include "../include/serial_comm.hpp"
+/*
+ * Copyright (c) 2024 CyberBee Ltd.
+ * All rights reserved.
+ *
+ * This file is part of the CyberBee IMX8 C++ Driver.
+ * 
+ * Description:
+ * This code is part of the CyberBee  IMX8 C++ Driver layer, responsible for
+ * managing communication between imx8 and other devices sucha s PI-4B.
+ * This code meant to be compiled on the client device i.e. PI-4B,or other ubuntu system.
+ *
+ */ 
 
+#include "../include/serial_comm.hpp"
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>
 // serial_comm.cpp

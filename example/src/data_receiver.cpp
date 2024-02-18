@@ -1,5 +1,17 @@
-#include "../include/data_receiver.hpp"
+/*
+ * Copyright (c) 2024 CyberBee Ltd.
+ * All rights reserved.
+ *
+ * This file is part of the CyberBee IMX8 C++ Driver.
+ * 
+ * Description:
+ * This code is part of the CyberBee  IMX8 C++ Driver layer, responsible for
+ * managing communication between imx8 and other devices sucha s PI-4B.
+ * This code meant to be compiled on the client device i.e. PI-4B,or other ubuntu system.
+ *
+ */
 
+#include "../include/data_receiver.hpp"
 #include <iostream>
 #include <sstream>
 #include <stdexcept>  // Includes standard exception types
@@ -68,15 +80,12 @@ void DataReceiver::processData()
 void DataReceiver::stop()
 {
     stopThreads = true;
-    // Ensure ExtractMessage exits if waiting
     serialPort_->NotifyDataAvailable();  // You might need to implement this
-    // SerialPort to directly signal cv
 }
 
 uint16_t DataReceiver::calculateCheckSum(
     std::array<std::string, 8>& sliced_msg_parts)
 {
-    // Concatenate the relevant parts with semicolons (if needed)
     std::string concatenatedParts =
         sliced_msg_parts[1] + ";" + sliced_msg_parts[2] + ";" +
         sliced_msg_parts[3] + ";" + sliced_msg_parts[4] + ";" +
@@ -113,12 +122,9 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
 
     std::cout << "Raw message :" << std::endl;
     std::cout << message << std::endl;
+    
+
     // Splitting the message into its components
-
-    // function to parse a cooma seperated string to 3 float tuple
-    //  Example function to parse a comma-separated string into a tuple of three
-    //  floats
-
     try
     {
         int parts_counter = 0;
@@ -129,11 +135,6 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
             parts_counter += 1;
         }
 
-        // for (const auto& p : sliced_msg_parts)
-        // {
-        //     std::cout << p << std::endl;
-        // }
-        // make sure message is intact
         if (parts_counter != 8)
         {
             throw std::runtime_error("Expected 8 parts in the message, found " +
@@ -149,7 +150,8 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
         uint16_t received_checksum =
             static_cast<uint16_t>(std::stoul(sliced_msg_parts[6]));
         std::string msgSuffix = sliced_msg_parts[7];
-
+        
+        // function to parse a cooma seperated string to 3 float tuple
         auto position = parseCSVFloats(sliced_msg_parts[3]);
         auto quaternion = parseCSVFloats(sliced_msg_parts[4]);
         auto velocity = parseCSVFloats(sliced_msg_parts[5]);
