@@ -1,3 +1,16 @@
+/*
+ * Copyright (c) 2024 CyberBee Ltd.
+ * All rights reserved.
+ *
+ * This file is part of the CyberBee IMX8 C++ Driver.
+ * 
+ * Description:
+ * This code is part of the CyberBee  IMX8 C++ Driver layer, responsible for
+ * managing communication between imx8 and other devices sucha s PI-4B.
+ * This code meant to be compiled on the client device i.e. PI-4B,or other ubuntu system.
+ *
+ */
+
 #include <csignal>
 #include <iostream>
 #include <memory>
@@ -22,10 +35,6 @@ enum UserCommand
 void signalHandler(int signum)
 {
     std::cout << "Interrupt signal (" << signum << ") received.\n";
-
-    // Assuming globalSerialPort is your SerialPort object
-    // No explicit call to close the serial port is needed here
-    // because it will be handled by the SerialPort destructor.
 
     // Signal DataReceiver to stop
     if (data_receiver)

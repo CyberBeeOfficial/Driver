@@ -71,9 +71,6 @@ void DataReceiver::processData()
         {
             ParseAndPrintMsg(message);
         }
-
-        // Optionally, add a short delay or use a condition variable to wait for
-        // new data
     }
 }
 
