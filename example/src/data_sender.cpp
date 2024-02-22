@@ -1,5 +1,17 @@
-#include "../include/data_sender.hpp"
+/*
+ * Copyright (c) 2024 CyberBee Ltd.
+ * All rights reserved.
+ *
+ * This file is part of the CyberBee IMX8 C++ Driver.
+ * 
+ * Description:
+ * This code is part of the CyberBee  IMX8 C++ Driver layer, responsible for
+ * managing communication between imx8 and other devices sucha s PI-4B.
+ * This code meant to be compiled on the client device i.e. PI-4B,or other ubuntu system.
+ *
+ */
 
+#include "../include/data_sender.hpp"
 #include <iostream>
 #include <sstream>
 DataSender::DataSender(SerialPort* serialPort) : serialPort(serialPort)
@@ -8,7 +20,6 @@ DataSender::DataSender(SerialPort* serialPort) : serialPort(serialPort)
 }
 
 uint16_t DataSender::calculateCheckSum(const std::string& message) { return 0; }
-// the Sender Class cpp file
 
 void DataSender::SendCommand(uint8_t command, const std::string& data)
 {
@@ -19,7 +30,6 @@ void DataSender::SendCommand(uint8_t command, const std::string& data)
     if ((serialPort) && (serialPort->IsSerialConnectionOpen()))
     {
         std::cout << "Serial connection is open." << std::endl;
-        // build command
         temp_ss << command << ";" << data;
         chksum = DataSender::calculateCheckSum(temp_ss.str());
         std::string chksumStr = std::to_string(chksum);

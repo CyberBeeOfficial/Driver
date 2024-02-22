@@ -34,17 +34,31 @@
 
 ## Introduction
 
-This documentation guides clients through connecting and reading pose data from devices over UART/USB interfaces, focusing on robotics and similar applications. It includes comprehensive instructions for hardware connections, serial communication via Python scripts, and detailed API documentation for command execution.
+The CyberBee Driver API facilitates the communication between computing devices, such as the Raspberry Pi 4B, and the BeeMX8 module,This documentation guides clients through connecting and reading pose data from devices over UART/USB interfaces, focusing on robotics and similar applications. It includes comprehensive instructions for hardware connections, serial communication via Python Or CPP scripts, and detailed API documentation for command execution.
+
+**!Important Note!:**
+Currently Use The CPP Version it's more stable, outgoing commands are not supported and default baud rate is 115200. 
+BeeMX8 support USB-C connector - next release will also support the UART on the BeeMX8.
 
 ## Client-Side Setup
 
 ### Hardware Connection
 
-- **Identify USB/UART Port:** Connect your Raspberry Pi 4B to your computer using the appropriate micro USB connection. The port should be recognized as COMx on Windows or /dev/ttyUSBx or /dev/ttyACMx on Linux.
+- **Identify USB/UART Port:** Connect your Raspberry Pi 4B or other computing module to the CyberBee BeeMX8 using the appropriate USB-C or UART port connection. The port should be recognized as COMx on Windows or /dev/ttyUSBx or /dev/ttyACMx on Linux.
+
+- **Port Names:** 
+    -   For **UART** GPIO on Pi 4B: Use **/dev/ttyAMA0.     ** 
+     -  For **BeeMX8:**
+           -  **Type-C Port**: **/dev/ttyUSB0** or **/dev/ttyUSB1**
+            
+         -  UART Connector: **/dev/ttymxc0**
+
+
+
 
 ### Verifying Connection
 
-- **Tools Required:** Use PuTTY for Windows or screen for Linux, configured with the correct port number and baud rate (default 115200).
+Use PuTTY on Windows or screen/minicom on Linux, configured with the correct port number and the default baud rate of 115200, to verify the connection. Send Messages between devices to cehk data passes.
 
 ## Serial Communication API Documentation
 
@@ -52,11 +66,11 @@ This documentation guides clients through connecting and reading pose data from 
 
 This section outlines the serial commands for communication with the hardware driver.
 
-### Command Structure
+### Outgoing Command Structure
 
 Commands follow the format `<ST>;command;data;<EN>` for both sending commands and receiving messages.
 
-### Available Commands
+### Available Commands Your Device Can Send To BeeMX8:
 
 - **Test Command:** `<ST>;0x20;0;<EN>`
 - **Change Baud Rate:** `<ST>;0x30;2;<EN>` for 38400 baud rate
@@ -65,9 +79,46 @@ Commands follow the format `<ST>;command;data;<EN>` for both sending commands an
 
 ### Incoming Message Structure
 
-Messages follow the format `<ST>;message_type;timestamp;position_data;quaternion_data;velocity_data;checksum;<EN>`, with detailed breakdowns of each component.
+Messages follow the format 
+
+Messages are formatted to include message type, timestamp, position data, quaternion data, velocity data, and a checksum, ensuring comprehensive data transmission and integrity.
+
+
+`<ST>;message_type;timestamp;position_data;quaternion_data;velocity_data;checksum;<EN>`, 
+
+";" is  breakdown for each component.
+
+**Components:**
+1) message_type: A byte indicating the data type, e.g., 01 for ODOMETRY, 02 for POSITION.
+
+2) **timestamp**: A Unix timestamp in seconds with nanosec resolution.
+3
+3) **position_data**: Three floating-point numbers for X, Y, Z coordinates.
+
+4) **quaternion_data**: Four floating-point numbers representing the quaternion (W, X, Y, Z).
+
+5) **velocity_data**: Three floating-point numbers for Vx, Vy, Vz) velocity.
+
+6. **checksum**: A byte representing the checksum of the message. It is calculated by summing up all the bytes in the message before the checksum.
+
+7. <ST> message Prefix
+8. <EN> messge Suffix 
+
+Example Message:
+
+```
+<ST>;01;1696499957.774450967;-9.80,10.75,0.24;0.4,-0.3,-0.5,0.6;0.2,0.3,0.5;123;<EN>
+```
+Message type: is **01** - meaning it’s an odometry message.
+Time Stamp is -  **1696499957.774450967**  in nanoseconds.
+Position Data shows  -  **x = -9.8, y =10.75, z = 0.24**.   
+Quaternion Data - **x =0.4, y = -0.3, z = -0.5, w = 0.6.**
+Checksum equals - **123**
+
+***Checksum is calculated by summing all of the numeric ASCII values of the string message.***
 
 ## Configuration and Startup Routine
+
 
 ### Default Setup
 
@@ -75,16 +126,63 @@ Messages follow the format `<ST>;message_type;timestamp;position_data;quaternion
 
 ### Start Routine
 
-1. Power up and connect to the module.
-2. Connect serially at the default baud rate.
-3. Execute the Test Command, then the SetDivisionRate command to start receiving position data.
+1. Power up the BeeMX8 and connect it to your device.
+2. Navigate to the directory containing the driver code and execute the appropriate script for your setup (Python or C++).
+
+>     <Your_Path> - The Location where you have cloned the Cyberbee Driver
+
+   Use  Bash FOr Linux  or other Terminal 
+
+```
+    cd <Your_Path>/Driver/example  -- for the python script 
+
+     cd <Your_Path>/Driver/example/src -- for the cpp script
+```
+3. **Run The Driver Script**
+
+    **For Python**
+
+        python3 python_driver.py
+
+     **For CPP Driver First Compile**
+    ```
+    /usr/bin/g++ -std=c++17 -g <Your_Path>/Driver/example/src/driver_main.cpp <Your_Path>/Driver/example/src/serial_comm.cpp <Your_Path>/Driver/example
+    
+    ```
+
+* ***Make Sure you change the <YOUR_PATH> with appropriate path.***
+
+
+    **Run CPP Driver:**    
+
+    ```
+       ./example/bin/CppDriver
+    
+    ```
+  
+
+    
+4. Execute the Test Command, then the SetDivisionRate command to start receiving position data.
+
+
 
 ## System Requirements
+
+* For the C++ driver, a GCC compiler is required. [https://gcc.gnu.org/install/](url)
+* For the Python driver, Python 3.x and the pyserial package are needed.
+* Pyserial Package For python Script 
+
 
 List of hardware and software prerequisites for using the API.
 
 ## Installation Instructions
 
+
+1) **Install Dependencies:** For Python, ensure pyserial is installed using pip install pyserial.
+
+2) **Clone or Download the Driver**: Obtain the driver code for your device.
+
+3) **Compile (C++) or Run (Python) the Driver:** Follow the startup routine instructions for compiling and running the driver.
 Step-by-step guide for setting up the API on the Raspberry Pi 4B.
 
 ## Troubleshooting and FAQs
@@ -107,43 +205,3 @@ Contact details and support channels for assistance.
 
 Additional resources, including sample code, compatibility lists, and a comprehensive change log.
 
-## Installation Instructions
-
-Before running the provided Python script, ensure you have Python installed on your system. The script requires Python 3.x.
-
-### Dependencies
-
-The script uses the `pyserial` package for serial communication. Install this package using pip:
-
-```
-pip install pyserial
-```
-
-### Running the Script
-
-1. Clone the repository or download the script to your local machine.
-2. Open a terminal or command prompt.
-3. Navigate to the directory containing the script.
-4. Run the script using Python:
-
-```
-python <script_name>.py
-```
-
-Replace `<script_name>` with the name of the Python script.
-
-Ensure your Raspberry Pi 4B or other compatible hardware is connected and configured as per the instructions in the "Client-Side Setup" section of this README.
-
-## Script Update for Checksum Validation
-
-The Python example code includes a function, `parse_and_print_message`, which has been updated to validate the checksum of received messages. This ensures the integrity of the data transmitted between the device and the client application. The updated function calculates a checksum for the received message and compares it with the transmitted checksum to verify the message's correctness.
-
-### Updating Your Application
-
-To incorporate this checksum validation into your application:
-
-1. Ensure the `calculate_checksum` function is defined and correctly calculates the checksum of a given command string.
-2. Update the `parse_and_print_message` function in your application code to include checksum parsing and validation as shown in the provided script update.
-3. Test the updated application with your hardware to ensure correct message processing and error handling for checksum mismatches.
-
-This update enhances the reliability and integrity of data communication in your application.

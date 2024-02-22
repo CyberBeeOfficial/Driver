@@ -3,15 +3,17 @@
  * All rights reserved.
  *
  * This file is part of the CyberBee IMX8 C++ Driver.
- * 
+ *
  * Description:
  * This code is part of the CyberBee  IMX8 C++ Driver layer, responsible for
  * managing communication between imx8 and other devices sucha s PI-4B.
- * This code meant to be compiled on the client device i.e. PI-4B,or other ubuntu system.
+ * This code meant to be compiled on the client device i.e. PI-4B,or other
+ * ubuntu system.
  *
  */
 
 #include "../include/data_receiver.hpp"
+
 #include <iostream>
 #include <sstream>
 #include <stdexcept>  // Includes standard exception types
@@ -119,7 +121,6 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
 
     std::cout << "Raw message :" << std::endl;
     std::cout << message << std::endl;
-    
 
     // Splitting the message into its components
     try
@@ -147,7 +148,7 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
         uint16_t received_checksum =
             static_cast<uint16_t>(std::stoul(sliced_msg_parts[6]));
         std::string msgSuffix = sliced_msg_parts[7];
-        
+
         // function to parse a cooma seperated string to 3 float tuple
         auto position = parseCSVFloats(sliced_msg_parts[3]);
         auto quaternion = parseCSVFloats(sliced_msg_parts[4]);
