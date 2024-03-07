@@ -46,7 +46,7 @@ BeeMX8 support USB-C connector - next release will also support the UART on the 
 
 - **Identify USB/UART Port:** Connect your Raspberry Pi 4B or other computing module to the CyberBee BeeMX8 using the appropriate USB-C or UART port connection. The port should be recognized as COMx on Windows or /dev/ttyUSBx or /dev/ttyACMx on Linux.
 
-![IMG_0332](https://github.com/CyberBeeOfficial/Driver/assets/80558934/3e022def-e85f-4966-9acf-f92adae725f6)
+![IMG_0337](https://github.com/CyberBeeOfficial/Driver/assets/80558934/453b5dac-6b71-4490-9e99-1665d25974fa)
 
 ![Screenshot from 2024-03-07 13-52-46](https://github.com/CyberBeeOfficial/Driver/assets/80558934/014325c5-bc38-4f00-a101-039500a5a72a)
 
@@ -153,22 +153,11 @@ cd <Your_Path>/Driver/example/src
 
    Make sure to run all 5 compilation lines to create the exe file
     ```
-    /usr/bin/g++ -std=c++17 -g -c driver_main.cpp -o driver_main.o
-    ```
-    ```
-    /usr/bin/g++ -std=c++17 -g -c serial_comm.cpp -o serial_comm.o
-    ```
-    ```
-    /usr/bin/g++ -std=c++17 -g -c data_receiver.cpp -o data_receiver.o
-    ```
-    ```
-   /usr/bin/g++ -std=c++17 -g -c data_sender.cpp -o data_sender.o
-    ```
-    ```
-   /usr/bin/g++ -std=c++17 -g driver_main.o serial_comm.o data_receiver.o data_sender.o -o <your_path>/Driver/example/bin/<name_of_executable>  -lboost_system -pthread
+    DRIVER_DIR=$(find / -type d -name "Driver" 2>/dev/null | head -n 1)
+    /usr/bin/g++ -std=c++17 -g "$DRIVER_DIR"/example/src/*.cpp -o "$DRIVER_DIR"/example/bin/name_of_executable -lboost_system -pthread
     ```
 
-* ***Make Sure you change the <YOUR_PATH> with appropriate path.***
+* ***Make Sure you change the <name_of_executable> with appropriate name.***
 
 
     **Run CPP Driver:**    
