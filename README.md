@@ -46,15 +46,16 @@ BeeMX8 support USB-C connector - next release will also support the UART on the 
 
 - **Identify USB/UART Port:** Connect your Raspberry Pi 4B or other computing module to the CyberBee BeeMX8 using the appropriate USB-C or UART port connection. The port should be recognized as COMx on Windows or /dev/ttyUSBx or /dev/ttyACMx on Linux.
 
+![IMG_0332](https://github.com/CyberBeeOfficial/Driver/assets/80558934/3e022def-e85f-4966-9acf-f92adae725f6)
+
+![Screenshot from 2024-03-07 13-52-46](https://github.com/CyberBeeOfficial/Driver/assets/80558934/014325c5-bc38-4f00-a101-039500a5a72a)
+
 - **Port Names:** 
-    -   For **UART** GPIO on Pi 4B: Use **/dev/ttyAMA0.     ** 
+    -   For **UART** GPIO on Pi 4B: Use **/dev/ttyAMA0.** 
      -  For **BeeMX8:**
            -  **Type-C Port**: **/dev/ttyUSB0** or **/dev/ttyUSB1**
             
          -  UART Connector: **/dev/ttymxc0**
-
-
-
 
 ### Verifying Connection
 
@@ -89,7 +90,7 @@ Messages are formatted to include message type, timestamp, position data, quater
 ";" is  breakdown for each component.
 
 **Components:**
-1) message_type: A byte indicating the data type, e.g., 01 for ODOMETRY, 02 for POSITION.
+1) **message_type**: A byte indicating the data type, e.g., 01 for ODOMETRY, 02 for POSITION.
 
 2) **timestamp**: A Unix timestamp in seconds with nanosec resolution.
 3
@@ -130,13 +131,17 @@ Checksum equals - **123**
 2. Navigate to the directory containing the driver code and execute the appropriate script for your setup (Python or C++).
 
 >     <Your_Path> - The Location where you have cloned the Cyberbee Driver
+>     To get the path write pwd
 
    Use  Bash FOr Linux  or other Terminal 
 
+for the python script 
 ```
-    cd <Your_Path>/Driver/example  -- for the python script 
-
-     cd <Your_Path>/Driver/example/src -- for the cpp script
+cd <Your_Path>/Driver/example
+```
+for the cpp script
+```
+cd <Your_Path>/Driver/example/src 
 ```
 3. **Run The Driver Script**
 
@@ -145,9 +150,22 @@ Checksum equals - **123**
         python3 python_driver.py
 
      **For CPP Driver First Compile**
+
+   Make sure to run all 5 compilation lines to create the exe file
     ```
-    /usr/bin/g++ -std=c++17 -g <Your_Path>/Driver/example/src/driver_main.cpp <Your_Path>/Driver/example/src/serial_comm.cpp <Your_Path>/Driver/example
-    
+    /usr/bin/g++ -std=c++17 -g -c driver_main.cpp -o driver_main.o
+    ```
+    ```
+    /usr/bin/g++ -std=c++17 -g -c serial_comm.cpp -o serial_comm.o
+    ```
+    ```
+    /usr/bin/g++ -std=c++17 -g -c data_receiver.cpp -o data_receiver.o
+    ```
+    ```
+   /usr/bin/g++ -std=c++17 -g -c data_sender.cpp -o data_sender.o
+    ```
+    ```
+   /usr/bin/g++ -std=c++17 -g driver_main.o serial_comm.o data_receiver.o data_sender.o -o <your_path>/Driver/example/bin/<name_of_executable>  -lboost_system -pthread
     ```
 
 * ***Make Sure you change the <YOUR_PATH> with appropriate path.***
@@ -156,12 +174,9 @@ Checksum equals - **123**
     **Run CPP Driver:**    
 
     ```
-       ./example/bin/CppDriver
-    
+    ./example/bin/<name_of_executable>
     ```
-  
 
-    
 4. Execute the Test Command, then the SetDivisionRate command to start receiving position data.
 
 
