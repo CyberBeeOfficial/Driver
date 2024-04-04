@@ -1,12 +1,15 @@
-#ifndef DATA_RECEIVER_HPP
-#define DATA_RECEIVER_HPP
+#ifndef DATA_RECEIVER_ROS_HPP
+#define DATA_RECEIVER_ROS_HPP
 
 #include "pose_message.hpp"
 #include "serial_comm.hpp"
-class DataReceiver
+#include "nav_msgs/msg/odometry.hpp"
+#include "rclcpp/rclcpp.hpp"
+
+class DataReceiverRos
 {
    public:
-    explicit DataReceiver(SerialPort* serialPort);
+    explicit DataReceiverRos(SerialPort* serialPort);
     void stop();
     void readData();
     void processData();
@@ -19,6 +22,7 @@ class DataReceiver
     uint64_t bigEndianToUint64(const std::vector<uint8_t>& data, size_t offset);
     uint16_t calculateChecksum(const std::vector<uint8_t>& data);
     uint16_t calculateChecksumBinary(const std::vector<uint8_t>& data);
+    void constructOdometryMessage(const std::vector<uint8_t>& message);
 
    private:
     SerialPort* serialPort_;
@@ -31,6 +35,9 @@ class DataReceiver
     uint64_t messageCountBinary = 0; // To count the number of messages processed
     std::chrono::steady_clock::time_point startTime; // To mark the start time of processing messages
     bool isTimeMarked = false; // To ensure start time is marked once
+
+    std::shared_ptr<rclcpp::Node> node_;
+    rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odometry_publisher_;
 };
 
-#endif  // DATA_RECEIVER_HPP
+#endif  // DATA_RECEIVER_ROS_HPP

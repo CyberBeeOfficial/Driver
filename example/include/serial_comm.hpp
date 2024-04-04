@@ -25,9 +25,9 @@ class SerialPort
     bool WriteToBuffer(const std::string &data);
     void ReadFromBuffer();
     void NotifyDataAvailable();
-    std::string
-    ExtractMessage();  // Method to extract messages from temp_storage
+    std::string ExtractMessage();  // Method to extract messages from temp_storage
     bool IsSerialConnectionOpen() const;
+    std::vector<uint8_t> ExtractMessageBinary();
 
    private:
     void Run();
@@ -35,6 +35,7 @@ class SerialPort
     boost::asio::io_service io_service;
     boost::asio::serial_port serial;
     std::string temp_storage;     // Buffer for incoming data
+    std::vector<uint8_t> temp_storage_binary; // Buffer for incoming data binary
     std::mutex mtx;               // Mutex for temp_storage access
     std::condition_variable cv;   // For signaling new data
     bool data_available = false;  // Flag to indicate new data is available

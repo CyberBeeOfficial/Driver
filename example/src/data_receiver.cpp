@@ -16,10 +16,23 @@
 
 #include <iostream>
 #include <sstream>
+
+#include <algorithm>
+#include <cstdint>
+#include <cstring>
+#include <numeric>
+
 #include <stdexcept>  // Includes standard exception types
 #include <string>
 #include <tuple>
 #include <vector>
+
+// Define message types
+enum MessageType {
+    ODOMETRY = 0x01,
+    POSITION = 0x02,
+    // Add more message types as needed
+};
 
 DataReceiver::DataReceiver(SerialPort* serialPort) : serialPort_(serialPort)
 {
@@ -66,12 +79,12 @@ void DataReceiver::processData()
 {
     while (!stopThreads)
     {
-        std::string message =
-            serialPort_->ExtractMessage();  // Assuming this method now just
+        // This part needs to check the message and only than parse it in a different function
+        std::vector<uint8_t> message = serialPort_->ExtractMessageBinary();  // Assuming this method now just
                                             // extracts based on `temp_storage`
         if (!message.empty())
         {
-            ParseAndPrintMsg(message);
+            ParseAndPrintMsgBinary(message);
         }
     }
 }
@@ -98,9 +111,80 @@ uint16_t DataReceiver::calculateCheckSum(
     return checksum;
 }
 
-std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
-    const std::string& message)
+void DataReceiver::ParseAndPrintMsgBinary(const std::vector<uint8_t>& message)
 {
+    if (message.size() < 52) { // Adjusted for the new message structure
+        throw std::runtime_error("Incomplete message received.");
+    }
+
+    // Extracting and printing the 2-byte message type
+    uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
+    std::cout << "Message Type: " << messageType << std::endl;
+
+    // Extracting and printing the timestamp
+    uint64_t timestamp = bigEndianToUint64(message, 2); // Starts from the 3rd byte
+    std::cout << "Timestamp: " << timestamp << std::endl;
+
+    size_t offset = 10; // Adjust offset for position data start
+
+    // Extracting and printing the position data
+    std::cout << "Position Data: ";
+    for (size_t i = offset; i < offset + 12; i += 4) {
+        std::cout << bigEndianToFloat(message, i) << " ";
+    }
+    std::cout << std::endl;
+
+    offset += 12; // Adjust for quaternion data start
+
+    // Extracting and printing the quaternion data
+    std::cout << "Quaternion Data: ";
+    for (size_t i = offset; i < offset + 16; i += 4) {
+        std::cout << bigEndianToFloat(message, i) << " ";
+    }
+    std::cout << std::endl;
+
+    offset += 16; // Adjust for velocity data start
+
+    // Extracting and printing the velocity data
+    std::cout << "Velocity Data: ";
+    for (size_t i = offset; i < offset + 12; i += 4) {
+        std::cout << bigEndianToFloat(message, i) << " ";
+    }
+    std::cout << std::endl;
+
+    // Verifying and printing the 2-byte checksum
+    uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
+    uint16_t calculatedChecksum = calculateChecksumBinary(message);
+    std::cout << "Calculated Checksum: " << calculatedChecksum 
+              << " Received Checksum: " << receivedChecksum << std::endl;
+
+    if (calculatedChecksum != receivedChecksum) {
+        std::cerr << "Checksum mismatch." << std::endl;
+    } else {
+        std::cout << "Checksum verified successfully." << std::endl;
+        if (!isTimeMarked) 
+            {
+              startTime = std::chrono::steady_clock::now();
+              isTimeMarked = true;
+            }
+            messageCountBinary++;
+            std::cout << messageCountBinary << std::endl;
+            if(messageCountBinary % 15 == 0)
+            {
+              auto endTime = std::chrono::steady_clock::now();
+              std::chrono::duration<double> elapsed = endTime - startTime;
+              double frequency = messageCountBinary / elapsed.count();
+              std::cout << "\n\n\n Message send frequency: " << frequency << "messages per second \n\n\n" << std::endl; 
+              messageCountBinary=0;
+              isTimeMarked = false;
+            }
+    }
+
+}
+
+std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
+    const std::string& message) //this is relevent to handeling strings, so we 
+{                               // put aside for now
     /// veriables to hold sections of msg
     std::vector<std::string> messageParts = { "prefix_value",
                                               "type_value",
@@ -180,4 +264,33 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
     }
 
     return sliced_msg_parts;
+}
+
+// Helper functions ---------------------------------------------------------
+
+// Helper function to convert from big endian to host endianess for floating-point numbers
+float DataReceiver::bigEndianToFloat(const std::vector<uint8_t>& data, size_t offset) {
+    uint32_t temp = 0;
+    std::memcpy(&temp, &data[offset], sizeof(temp));
+    temp = ntohl(temp); // Assumes your system has ntohl. Otherwise, implement a similar function
+    float result;
+    std::memcpy(&result, &temp, sizeof(result));
+    return result;
+}
+
+// Helper function to convert from big endian to host endianess for 64-bit integers
+uint64_t DataReceiver::bigEndianToUint64(const std::vector<uint8_t>& data, size_t offset) {
+    uint64_t result = 0;
+    for (int i = 0; i < 8; ++i) {
+        result = (result << 8) | data[offset + i];
+    }
+    return result;
+}
+
+// Helper function for 16-bit checksum calculation
+uint16_t DataReceiver::calculateChecksumBinary(const std::vector<uint8_t>& data) {
+    uint32_t sum = std::accumulate(data.begin(), data.end() - 2, 0u); // Include all bytes for the sum except the last two checksum bytes
+    // No need to convert sum to big endian, simply truncate to 16 bits
+    uint16_t checksum = static_cast<uint16_t>(sum & 0xFFFF);
+    return checksum; // Return the checksum without converting it to big endian
 }

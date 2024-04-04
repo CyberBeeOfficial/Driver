@@ -66,8 +66,8 @@ int main()
     // Register signal SIGINT and signal handler
     signal(SIGINT, signalHandler);
 
-    std::string portName = "/dev/ttyAMA0";  // ttyAMAO is the port on Pi26
-    unsigned int baudRate = 115200;         // current baud rate for pi26
+    std::string portName = "/dev/ttyUSB0";  // ttyUSBO is the port on PC
+    unsigned int baudRate = 115200;         // current baud rate for PC
     char command_input;
     // Create an instance of SerialPort
     globalSerialPort = std::make_unique<SerialPort>(portName, baudRate);
@@ -84,59 +84,59 @@ int main()
 
     // Wait for a signal (e.g., SIGINT) to terminate the program
     // This loop is just a placeholder; adjust according to your program's needs
-    while (true)
-    {
-        if (globalSerialPort->IsSerialConnectionOpen())
-        {
-            try
-            {
-                std::cout << "Enter Command:" << std::endl;
-                std::cin >> command_input;
-                switch (command_input)
-                {
-                    case 't':
-                        /* TODO: SET DEVISION RATE AND SEND IT */
-                        division_rate =
-                            (division_rate + 1) % 6;  // cycle through 0 to 5
-                        data_sender->SendCommand(SetDivisionRate,
-                                                 std::to_string(division_rate));
-                        std::cout << "Set Devision Rate to " << division_rate
-                                  << std::endl;
+    // while (true)
+    // {
+    //     if (globalSerialPort->IsSerialConnectionOpen())
+    //     {
+    //         try
+    //         {
+    //             std::cout << "Enter Command:" << std::endl;
+    //             std::cin >> command_input;
+    //             switch (command_input)
+    //             {
+    //                 case 't':
+    //                     /* TODO: SET DEVISION RATE AND SEND IT */
+    //                     division_rate =
+    //                         (division_rate + 1) % 6;  // cycle through 0 to 5
+    //                     data_sender->SendCommand(SetDivisionRate,
+    //                                              std::to_string(division_rate));
+    //                     std::cout << "Set Devision Rate to " << division_rate
+    //                               << std::endl;
 
-                        break;
+    //                     break;
 
-                    case 'y':
-                        /* TODO: SET NEW BAUD RATE AND SEND IT */
-                        baud_rate_index =
-                            (baud_rate_index + 1) %
-                            (sizeof(baud_rates) / sizeof(baud_rates[0]));
-                        data_sender->SendCommand(
-                            ChangeBaudRate, std::to_string(baud_rate_index));
-                        std::cout << "Baud Rate Changed to: "
-                                  << baud_rates[baud_rate_index] << std::endl;
-                        break;
+    //                 case 'y':
+    //                     /* TODO: SET NEW BAUD RATE AND SEND IT */
+    //                     baud_rate_index =
+    //                         (baud_rate_index + 1) %
+    //                         (sizeof(baud_rates) / sizeof(baud_rates[0]));
+    //                     data_sender->SendCommand(
+    //                         ChangeBaudRate, std::to_string(baud_rate_index));
+    //                     std::cout << "Baud Rate Changed to: "
+    //                               << baud_rates[baud_rate_index] << std::endl;
+    //                     break;
 
-                    case 'z':
-                        /* TODO: START BAUD RATE TEST - requires seperate
-                         * function to test message send */
-                        data_sender->SendCommand(Test, std::to_string(0));
-                        std::cout << "Baud Rate Test start " << std::endl;
-                        break;
+    //                 case 'z':
+    //                     /* TODO: START BAUD RATE TEST - requires seperate
+    //                      * function to test message send */
+    //                     data_sender->SendCommand(Test, std::to_string(0));
+    //                     std::cout << "Baud Rate Test start " << std::endl;
+    //                     break;
 
-                    default:
-                        std::cout << "Toggle listen-only mode " << std::endl;
+    //                 default:
+    //                     std::cout << "Toggle listen-only mode " << std::endl;
 
-                        break;
-                }
-            }
-            catch (const std::exception& e)
-            {
-                std::cerr << e.what() << '\n';
-            }
-        }
+    //                     break;
+    //             }
+    //         }
+    //         catch (const std::exception& e)
+    //         {
+    //             std::cerr << e.what() << '\n';
+    //         }
+    //     }
 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
+    //     std::this_thread::sleep_for(std::chrono::seconds(1));
+    // }
 
     // Cleanup is handled automatically by the unique_ptr and SerialPort
     // destructor
