@@ -137,6 +137,7 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
                 else if(byte == START_BYTE && !escapeNextByte) //if I found another start byte but without escape byte 
                 {                                              // beforehand
                     endByteFound = true;
+                    temp_storage_binary.insert(temp_storage_binary.begin(), byte);
                 }
                 else if (byte == ESCAPE_BYTE && !escapeNextByte) // a escape byte was found but first time
                 {                                                // more relevent to the next byte
