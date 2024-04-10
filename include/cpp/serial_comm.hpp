@@ -11,22 +11,6 @@
 #include <sstream>
 #include <iomanip>
 
-/*
-
-
-
-
-
-
-
-
-
-#include <stdexcept> 
-#include <string>
-#include <tuple>
-#include <vector>
-*/
-
 class SerialPort
 {
    public:
@@ -55,6 +39,7 @@ class SerialPort
     std::condition_variable cv;   // For signaling new data
     bool data_available = false;  // Flag to indicate new data is available
     int messageSize_;             // Sets what size the sent message is to extract
+    
     static constexpr size_t TARGET_MESSAGE_SIZE = 256;
     static constexpr uint8_t START_BYTE = 0xFF;
     static constexpr uint8_t END_BYTE = 0xEE;
