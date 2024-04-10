@@ -30,7 +30,8 @@
 #include <vector>
 
 // Define message types
-enum MessageType {
+enum MessageType 
+{
     ODOMETRY = 0x01,
     POSITION = 0x02,
     IMU = 0x03,
@@ -112,7 +113,8 @@ void DataReceiver::stop()
 
 void DataReceiver::ParseOdometryMsg(const std::vector<uint8_t>& message)
 {
-    if (message.size() < 50) { // Adjusted for the new message structure
+    if (message.size() < 50) // Adjusted for the new message structure
+    { 
         throw std::runtime_error("Incomplete message received.");
     }
 
@@ -128,7 +130,8 @@ void DataReceiver::ParseOdometryMsg(const std::vector<uint8_t>& message)
 
     // Extracting and printing the position data
     std::cout << "Position Data: ";
-    for (size_t i = offset; i < offset + 12; i += 4) {
+    for (size_t i = offset; i < offset + 12; i += 4) 
+    {
         std::cout << bigEndianToFloat(message, i) << " ";
     }
     std::cout << std::endl;
@@ -137,7 +140,8 @@ void DataReceiver::ParseOdometryMsg(const std::vector<uint8_t>& message)
 
     // Extracting and printing the quaternion data
     std::cout << "Quaternion Data: ";
-    for (size_t i = offset; i < offset + 16; i += 4) {
+    for (size_t i = offset; i < offset + 16; i += 4) 
+    {
         std::cout << bigEndianToFloat(message, i) << " ";
     }
     std::cout << std::endl;
@@ -146,27 +150,17 @@ void DataReceiver::ParseOdometryMsg(const std::vector<uint8_t>& message)
 
     // Extracting and printing the velocity data
     std::cout << "Velocity Data: ";
-    for (size_t i = offset; i < offset + 12; i += 4) {
+    for (size_t i = offset; i < offset + 12; i += 4) 
+    {
         std::cout << bigEndianToFloat(message, i) << " ";
     }
     std::cout << std::endl;
-
-    // Verifying and printing the 2-byte checksum
-    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
-    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    // std::cout << "Calculated Checksum: " << calculatedChecksum 
-    //           << " Received Checksum: " << receivedChecksum << std::endl;
-
-    // if (calculatedChecksum != receivedChecksum) {
-    //     std::cerr << "Checksum mismatch." << std::endl;
-    // } else {
-    //     std::cout << "Checksum verified successfully.\n" << std::endl;
-    // }
 }
 
 void DataReceiver::ParsePoseStampedMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() < 38) { // Adjusted for the new message structure
+    if (message.size() < 38) // Adjusted for the new message structure
+    { 
         throw std::runtime_error("Incomplete message received.");
     }
     
@@ -180,32 +174,25 @@ void DataReceiver::ParsePoseStampedMsg(const std::vector<uint8_t>& message)
 
     // Position starts at byte 10
     std::cout << "Position Data: ";
-    for (size_t i = 10; i < 22; i += 4) { // 12 bytes for position (x, y, z)
+    for (size_t i = 10; i < 22; i += 4) 
+    { // 12 bytes for position (x, y, z)
         std::cout << bigEndianToFloat(message, i) << " ";
     }
     std::cout << std::endl;
 
     // Orientation starts immediately after position
     std::cout << "Quaternion Data: ";
-    for (size_t i = 22; i < 38; i += 4) { // 16 bytes for quaternion (x, y, z, w)
+    for (size_t i = 22; i < 38; i += 4) 
+    { // 16 bytes for quaternion (x, y, z, w)
         std::cout << bigEndianToFloat(message, i) << " ";
     }
     std::cout << std::endl;
-
-    // Checksum validation
-    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
-    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    // std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    // if (calculatedChecksum != receivedChecksum) {
-    //     std::cerr << "Checksum mismatch." << std::endl;
-    // } else {
-    //     std::cout << "Checksum verified successfully." << std::endl;
-    // }
 }
 
 void DataReceiver::ParseImuMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() < 50) { // Adjusted for the new message structure
+    if (message.size() < 50) 
+    { 
         throw std::runtime_error("Incomplete message received.");
     }
  
@@ -233,25 +220,17 @@ void DataReceiver::ParseImuMsg(const std::vector<uint8_t>& message)
 
     // Linear acceleration starts after angular velocity
     std::cout << "Linear Acceleration: ";
-    for (size_t i = 38; i < 50; i += 4) { // 12 bytes for linear acceleration (x, y, z)
+    for (size_t i = 38; i < 50; i += 4) // 12 bytes for linear acceleration (x, y, z)
+    { 
         std::cout << bigEndianToFloat(message, i) << " ";
     }
     std::cout << std::endl;
-
-    // Checksum validation
-    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
-    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    // std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    // if (calculatedChecksum != receivedChecksum) {
-    //     std::cerr << "Checksum mismatch." << std::endl;
-    // } else {
-    //     std::cout << "Checksum verified successfully." << std::endl;
-    // }
 }
 
 void DataReceiver::ParseStatusMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() < 18) { // Adjusted for the new message structure
+    if (message.size() < 18) // Adjusted for the new message structure
+    { 
         throw std::runtime_error("Incomplete message received.");
     }
     
@@ -261,25 +240,17 @@ void DataReceiver::ParseStatusMsg(const std::vector<uint8_t>& message)
 
     // Status information
     std::cout << "Status Information: ";
-    for (size_t i = 2; i < 18; i++) { // Iterate through the 16 bytes of data
+    for (size_t i = 2; i < 18; i++) 
+    { // Iterate through the 16 bytes of data
         std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(message[i]) << " ";
     }
     std::cout << std::dec << std::endl; // Switch back to decimal output
-
-    // Checksum validation
-    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[18]) << 8) | message[19];
-    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    // std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    // if (calculatedChecksum != receivedChecksum) {
-    //     std::cerr << "Checksum mismatch." << std::endl;
-    // } else {
-    //     std::cout << "Checksum verified successfully." << std::endl;
-    // }
 }
 
 void DataReceiver::ParseErrorMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() < 18) { // Adjusted for the new message structure
+    if (message.size() < 18) // Adjusted for the new message structure
+    { 
         throw std::runtime_error("Incomplete message received.");
     }
     
@@ -289,26 +260,18 @@ void DataReceiver::ParseErrorMsg(const std::vector<uint8_t>& message)
 
     // Error information
     std::cout << "Error Information: ";
-    for (size_t i = 2; i < 18; i++) { // Iterate through the 16 bytes of data
+    for (size_t i = 2; i < 18; i++) // Iterate through the 16 bytes of data
+    { 
         std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(message[i]) << " ";
     }
     std::cout << std::dec << std::endl; // Switch back to decimal output
-
-    // Checksum validation
-    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[18]) << 8) | message[19];
-    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    // std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    // if (calculatedChecksum != receivedChecksum) {
-    //     std::cerr << "Checksum mismatch." << std::endl;
-    // } else {
-    //     std::cout << "Checksum verified successfully." << std::endl;
-    // }
 }
 
 // ------------------------------- Helper functions ------------------------------------
 
 // Helper function to convert from big endian to host endianess for floating-point numbers
-float DataReceiver::bigEndianToFloat(const std::vector<uint8_t>& data, size_t offset) {
+float DataReceiver::bigEndianToFloat(const std::vector<uint8_t>& data, size_t offset) 
+{
     uint32_t temp = 0;
     std::memcpy(&temp, &data[offset], sizeof(temp));
     temp = ntohl(temp); // Assumes your system has ntohl. Otherwise, implement a similar function
@@ -318,18 +281,13 @@ float DataReceiver::bigEndianToFloat(const std::vector<uint8_t>& data, size_t of
 }
 
 // Helper function to convert from big endian to host endianess for 64-bit integers
-uint64_t DataReceiver::bigEndianToUint64(const std::vector<uint8_t>& data, size_t offset) {
+uint64_t DataReceiver::bigEndianToUint64(const std::vector<uint8_t>& data, size_t offset) 
+{
     uint64_t result = 0;
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < 8; ++i) 
+    {
         result = (result << 8) | data[offset + i];
     }
     return result;
 }
 
-// Helper function for 16-bit checksum calculation
-uint16_t DataReceiver::calculateChecksumBinary(const std::vector<uint8_t>& data) {
-    uint32_t sum = std::accumulate(data.begin(), data.end() - 2, 0u); // Include all bytes for the sum except the last two checksum bytes
-    // No need to convert sum to big endian, simply truncate to 16 bits
-    uint16_t checksum = static_cast<uint16_t>(sum & 0xFFFF);
-    return checksum; // Return the checksum without converting it to big endian
-}

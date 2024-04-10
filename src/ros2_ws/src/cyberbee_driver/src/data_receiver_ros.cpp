@@ -59,33 +59,45 @@ void DataReceiverRos::readData()
 
 void DataReceiverRos::processData()
 {
+    std::vector<std::uint8_t> message;
     while (!stopThreads)
     {
-        std::vector<uint8_t> message = serialPort_->ExtractMessageBinary(); 
+        // This part needs to check the message and only than parse it in a different function
+        std::vector<std::vector<uint8_t>> messages = serialPort_->ExtractMessageBinary();  // Assuming this method now just 
 
-        uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
-
-        if (!message.empty())
+        for(auto msg = messages.begin(); msg != messages.end(); msg++)
         {
-            switch(messageType)
+            message.assign((*msg).begin() + 1, (*msg).end() - 3); // without start byte and end byte
+
+            uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
+
+            if (!message.empty())
             {
-                case ODOMETRY:
-                    ParseOdometryMsg(message);
-                    break;
-                case POSITION:
-                    ParsePoseStampedMsg(message);
-                    break;
-                case IMU:
-                    ParseImuMsg(message);
-                    break;
-                case STATUS:
-                    ParseStatusMsg(message);
-                    break;
-                case ERROR:
-                    ParseErrorMsg(message);
-                    break;
-                default:
-                    break;
+                switch(messageType)
+                {
+                    case ODOMETRY:
+                        std::cout << "Odometry message" << std::endl;
+                        ParseOdometryMsg(message);
+                        break;
+                    case POSITION:
+                        std::cout << "PoseStamped message" << std::endl;
+                        ParsePoseStampedMsg(message);
+                        break;
+                    case IMU:
+                        std::cout << "Imu message" << std::endl;
+                        ParseImuMsg(message);
+                        break;
+                    case STATUS:
+                        std::cout << "Status message" << std::endl;
+                        ParseStatusMsg(message);
+                        break;
+                    case ERROR:
+                        std::cout << "Error message" << std::endl;
+                        ParseErrorMsg(message);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -101,149 +113,10 @@ void DataReceiverRos::stop()
 
 void DataReceiverRos::ParseOdometryMsg(const std::vector<uint8_t>& message)
 {
-    if (message.size() < 52) { // Adjusted for the new message structure
+    if (message.size() < 50) // Adjusted for the new message structure
+    { 
         throw std::runtime_error("Incomplete message received.");
     }
-
-    // Verifying and printing the 2-byte checksum
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum 
-              << " Received Checksum: " << receivedChecksum << std::endl;
-
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully." << std::endl;
-        constructOdometryMessage(message);
-    }
-}
-
-void DataReceiverRos::ParsePoseStampedMsg(const std::vector<uint8_t>& message) 
-{
-    if (message.size() < 40) { // Adjust based on your message structure
-        throw std::runtime_error("Incomplete PoseStamped message received.");
-    }
-
-    // Checksum validation
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully." << std::endl;
-        constructPoseStampedMessage(message);
-    }
-}
-
-void DataReceiverRos::ParseImuMsg(const std::vector<uint8_t>& message) 
-{
-    if (message.size() < 52) { // Adjust based on the expected length
-        throw std::runtime_error("Incomplete IMU message received.");
-    }
-
-    // Checksum validation
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully." << std::endl;
-        constructImuMessage(message);
-    }
-}
-
-void DataReceiverRos::ParseStatusMsg(const std::vector<uint8_t>& message) 
-{
-    if (message.size() != 20) { // Fixed size: 2 bytes type, 16 bytes data, 2 bytes checksum
-        throw std::runtime_error("Incorrect status message size.");
-    }
-
-    // Extracting message type
-    uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
-    std::cout << "Message Type: " << messageType << std::endl;
-
-    // Status information
-    std::cout << "Status Information: ";
-    for (size_t i = 2; i < 18; i++) { // Iterate through the 16 bytes of data
-        std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(message[i]) << " ";
-    }
-    std::cout << std::dec << std::endl; // Switch back to decimal output
-
-    // Checksum validation
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[18]) << 8) | message[19];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully." << std::endl;
-    }
-}
-
-void DataReceiverRos::ParseErrorMsg(const std::vector<uint8_t>& message) 
-{
-    if (message.size() != 20) { // Fixed size: 2 bytes type, 16 bytes data, 2 bytes checksum
-        throw std::runtime_error("Incorrect error message size.");
-    }
-
-    // Extracting message type
-    uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
-    std::cout << "Message Type: " << messageType << std::endl;
-
-    // Error information
-    std::cout << "Error Information: ";
-    for (size_t i = 2; i < 18; i++) { // Iterate through the 16 bytes of data
-        std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(message[i]) << " ";
-    }
-    std::cout << std::dec << std::endl; // Switch back to decimal output
-
-    // Checksum validation
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[18]) << 8) | message[19];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully." << std::endl;
-    }
-}
-
-// ------------------------------- Helper functions ------------------------------------
-
-// Helper function to convert from big endian to host endianess for floating-point numbers
-float DataReceiverRos::bigEndianToFloat(const std::vector<uint8_t>& data, size_t offset) {
-    uint32_t temp = 0;
-    std::memcpy(&temp, &data[offset], sizeof(temp));
-    temp = ntohl(temp); // Assumes your system has ntohl. Otherwise, implement a similar function
-    float result;
-    std::memcpy(&result, &temp, sizeof(result));
-    return result;
-}
-
-// Helper function to convert from big endian to host endianess for 64-bit integers
-uint64_t DataReceiverRos::bigEndianToUint64(const std::vector<uint8_t>& data, size_t offset) {
-    uint64_t result = 0;
-    for (int i = 0; i < 8; ++i) {
-        result = (result << 8) | data[offset + i];
-    }
-    return result;
-}
-
-// Helper function for 16-bit checksum calculation
-uint16_t DataReceiverRos::calculateChecksumBinary(const std::vector<uint8_t>& data) {
-    uint32_t sum = std::accumulate(data.begin(), data.end() - 2, 0u); // Include all bytes for the sum except the last two checksum bytes
-    // No need to convert sum to big endian, simply truncate to 16 bits
-    uint16_t checksum = static_cast<uint16_t>(sum & 0xFFFF);
-    return checksum; // Return the checksum without converting it to big endian
-}
-
-// ------------------------------- construct functions ------------------------------------
-
-void DataReceiverRos::constructOdometryMessage(const std::vector<uint8_t>& message) {
-
     // Instantiate an Odometry message
     auto odometryMsg = std::make_shared<nav_msgs::msg::Odometry>();
 
@@ -282,8 +155,13 @@ void DataReceiverRos::constructOdometryMessage(const std::vector<uint8_t>& messa
     }
 }
 
-void DataReceiverRos::constructPoseStampedMessage(const std::vector<uint8_t>& message) 
+void DataReceiverRos::ParsePoseStampedMsg(const std::vector<uint8_t>& message) 
 {
+    if (message.size() < 38) // Adjust based on your message structure
+    { 
+        throw std::runtime_error("Incomplete PoseStamped message received.");
+    }
+    
     auto poseStampedMsg = std::make_shared<geometry_msgs::msg::PoseStamped>();
 
     // Set the frame ID as per your configuration
@@ -313,8 +191,13 @@ void DataReceiverRos::constructPoseStampedMessage(const std::vector<uint8_t>& me
     }
 }
 
-void DataReceiverRos::constructImuMessage(const std::vector<uint8_t>& message) 
+void DataReceiverRos::ParseImuMsg(const std::vector<uint8_t>& message) 
 {
+    if (message.size() < 50) // Adjust based on the expected length
+    { 
+        throw std::runtime_error("Incomplete IMU message received.");
+    }
+    
     auto imuMsg = std::make_shared<sensor_msgs::msg::Imu>();
 
     // Set the frame ID as per your configuration
@@ -349,3 +232,66 @@ void DataReceiverRos::constructImuMessage(const std::vector<uint8_t>& message)
         Imu_publisher_->publish(*imuMsg);
     }
 }
+
+void DataReceiverRos::ParseStatusMsg(const std::vector<uint8_t>& message) 
+{
+    if (message.size() != 18) { // Fixed size: 2 bytes type, 16 bytes data, 2 bytes checksum
+        throw std::runtime_error("Incorrect status message size.");
+    }
+
+    // Extracting message type
+    uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
+    std::cout << "Message Type: " << messageType << std::endl;
+
+    // Status information
+    std::cout << "Status Information: ";
+    for (size_t i = 2; i < 18; i++) { // Iterate through the 16 bytes of data
+        std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(message[i]) << " ";
+    }
+    std::cout << std::dec << std::endl; // Switch back to decimal output
+}
+
+void DataReceiverRos::ParseErrorMsg(const std::vector<uint8_t>& message) 
+{
+    if (message.size() != 18) { // Fixed size: 2 bytes type, 16 bytes data, 2 bytes checksum
+        throw std::runtime_error("Incorrect error message size.");
+    }
+
+    // Extracting message type
+    uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
+    std::cout << "Message Type: " << messageType << std::endl;
+
+    // Error information
+    std::cout << "Error Information: ";
+    for (size_t i = 2; i < 18; i++) { // Iterate through the 16 bytes of data
+        std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(message[i]) << " ";
+    }
+    std::cout << std::dec << std::endl; // Switch back to decimal output
+}
+
+// ------------------------------- Helper functions ------------------------------------
+
+// Helper function to convert from big endian to host endianess for floating-point numbers
+float DataReceiverRos::bigEndianToFloat(const std::vector<uint8_t>& data, size_t offset) 
+{
+    uint32_t temp = 0;
+    std::memcpy(&temp, &data[offset], sizeof(temp));
+    temp = ntohl(temp); // Assumes your system has ntohl. Otherwise, implement a similar function
+    float result;
+    std::memcpy(&result, &temp, sizeof(result));
+    return result;
+}
+
+// Helper function to convert from big endian to host endianess for 64-bit integers
+uint64_t DataReceiverRos::bigEndianToUint64(const std::vector<uint8_t>& data, size_t offset) 
+{
+    uint64_t result = 0;
+    for (int i = 0; i < 8; ++i) 
+    {
+        result = (result << 8) | data[offset + i];
+    }
+    return result;
+}
+
+
+

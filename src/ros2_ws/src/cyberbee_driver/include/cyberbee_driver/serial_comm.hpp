@@ -27,7 +27,8 @@ class SerialPort
     void NotifyDataAvailable();
     //std::string ExtractMessage();  // Method to extract messages from temp_storage
     bool IsSerialConnectionOpen() const;
-    std::vector<uint8_t> ExtractMessageBinary();
+    std::vector<std::vector<uint8_t>> ExtractMessageBinary();
+    uint16_t calculateChecksumBinary(const std::vector<uint8_t>& data);
 
    private:
     void Run();
@@ -40,7 +41,11 @@ class SerialPort
     std::condition_variable cv;   // For signaling new data
     bool data_available = false;  // Flag to indicate new data is available
     int messageSize_;             // Sets what size the sent message is to extract
-    static constexpr size_t TARGET_MESSAGE_SIZE = 1024;
+    
+    static constexpr size_t TARGET_MESSAGE_SIZE = 256;
+    static constexpr uint8_t START_BYTE = 0xFF;
+    static constexpr uint8_t END_BYTE = 0xEE;
+    static constexpr uint8_t ESCAPE_BYTE = 0x10;
 };
 
 #endif  // for SERIAL_COMM_H

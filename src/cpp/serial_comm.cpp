@@ -16,7 +16,8 @@
 #include <boost/system/error_code.hpp>
 #include <iostream>
 
-enum MessageType {
+enum MessageType 
+{
     ODOMETRY = 0x01,
     POSITION = 0x02,
     IMU = 0x03,
@@ -56,12 +57,10 @@ void SerialPort::OpenSerialConnection()
     serial.open(port, error_code);
     if (error_code)
     {
-        std::cerr << "Error opening serial port: " << error_code.message()
-                  << std::endl;
+        std::cerr << "Error opening serial port: " << error_code.message() << std::endl;
         return;
     }
-    serial.set_option(boost::asio::serial_port_base::baud_rate(baud_rate),
-                      error_code);
+    serial.set_option(boost::asio::serial_port_base::baud_rate(baud_rate), error_code);
     if (error_code)
     {
         std::cerr << "Error setting baud rate: " << error_code.message()
@@ -69,6 +68,9 @@ void SerialPort::OpenSerialConnection()
         return;
     }
 }
+
+/*
+This is the version with the binary messages prints for the debug
 
 std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
     std::unique_lock<std::mutex> extract_lock(mtx);
@@ -339,21 +341,175 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
 
     return allMessages;
 }
+*/
 
-void SerialPort::ReadFromBuffer() {
+std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() 
+{
+    std::unique_lock<std::mutex> extract_lock(mtx);
+    cv.wait(extract_lock, [this] { return data_available; });
+
+    static std::vector<uint8_t> partialMessage; // Static to persist across function calls
+    std::vector<uint8_t> message;
+    std::vector<uint8_t> processedMessage;
+    std::vector<std::vector<uint8_t>> allMessages;
+    bool startByteFound = false;
+    bool escapeNextByte = false;
+    bool endByteFound = false;
+    bool uncompleteMsg = false;
+    int i;
+
+    // Prepend any existing partial message to the start of the temp_storage_binary
+    if (!partialMessage.empty()) 
+    {
+        temp_storage_binary.insert(temp_storage_binary.begin(), partialMessage.begin(), partialMessage.end());
+        partialMessage.clear(); // Clear partial message after merging
+        std::cout << "got partial message in ExtractMessageBinary" << std::endl;
+    }
+
+    while(!temp_storage_binary.empty() && !uncompleteMsg)
+    {
+        i = 0;
+        for (auto it = temp_storage_binary.begin(); it != temp_storage_binary.end() && !endByteFound; ++it) 
+        {
+            uint8_t byte = *it;
+            if (!startByteFound && byte == START_BYTE) // [start wasn't found yet and current byte is equal to start]
+            { 
+                startByteFound = true;                   
+                message.clear();                       
+                message.push_back(START_BYTE);           
+            } 
+            else if(startByteFound) // won't enter until we found the start byte
+            {
+                if (byte == END_BYTE && !escapeNextByte) // if the byte found is exit byte, and no escape byte is in front 
+                {                                        // of it
+                    message.push_back(byte); 
+                    endByteFound = true; 
+                } 
+                else if(byte == START_BYTE && !escapeNextByte) //if I found another start byte but without escape byte 
+                {                                              // beforehand
+                    endByteFound = true;
+                    temp_storage_binary.insert(temp_storage_binary.begin(), byte);
+                }
+                else if (byte == ESCAPE_BYTE && !escapeNextByte) // a escape byte was found but first time
+                {                                                // more relevent to the next byte
+                    escapeNextByte = true; 
+                }
+                else 
+                {
+                    if (escapeNextByte) // if there is an escape byte we check if it is for esc byte or data
+                    {
+                        if(byte == START_BYTE || byte == END_BYTE) 
+                        {
+                            escapeNextByte = false;
+                            message.push_back(byte);
+                        }
+                        else if(byte == ESCAPE_BYTE) 
+                        {
+                            message.push_back(ESCAPE_BYTE);
+                        }
+                        else 
+                        {
+                            message.push_back(ESCAPE_BYTE);
+                            message.push_back(byte);
+                            escapeNextByte = false;
+                        }
+                    }
+                    else 
+                    {
+                        message.push_back(byte); // Add byte to current message
+                    }
+                }
+            }
+            i++;
+        }
+        
+        if(endByteFound)
+        {
+            allMessages.push_back(message);
+        }
+        message.clear();
+
+        std::vector<uint8_t> temp = allMessages.back();
+
+        if(endByteFound && startByteFound)
+        {
+            temp_storage_binary.erase(temp_storage_binary.begin(), temp_storage_binary.begin() + i);
+        }
+        else 
+        {
+            uncompleteMsg = true;
+        }
+        endByteFound = false;
+        startByteFound = false;
+    }
+
+    if (!temp_storage_binary.empty()) 
+    {
+        // If a message is started but not completed, save the remainder as a partial message
+        if(!temp_storage_binary.empty()) 
+        {
+            partialMessage.insert(partialMessage.begin(), temp_storage_binary.begin(), temp_storage_binary.end());
+            temp_storage_binary.clear();
+        }
+        std::cout << "\nleft partial message in ExtractMessageBinary" << std::endl;
+    }
+
+    // Process the complete message, if any
+    for(auto msg = allMessages.begin(); msg != allMessages.end(); msg++)
+    {
+        std::vector<uint8_t> currMsg = *msg;
+        if (!currMsg.empty()) 
+        {
+            // Assuming checksum is the last two bytes of the message
+            if (currMsg.size() > 2) 
+            {
+                processedMessage.assign(currMsg.begin() + 1, currMsg.end() - 3); // Exclude start, end and checksum bytes 
+
+                uint16_t receivedChecksum = (static_cast<uint16_t>(currMsg[currMsg.size() - 3]) << 8) + currMsg[currMsg.size() - 2];
+                uint16_t calculatedChecksum = calculateChecksumBinary(processedMessage);
+
+                if (calculatedChecksum != receivedChecksum) 
+                {
+                    std::cerr << "Checksum mismatch." << std::endl;
+                    // Handle checksum mismatch, perhaps clear processedMessage to indicate an error
+                    processedMessage.clear();
+                    allMessages.erase(msg);
+                } else 
+                {
+                    //std::cerr << "Checksum successfully verified." << std::endl;
+                    // Checksum valid, processedMessage contains the verified message data
+                }
+            } else 
+            {
+                std::cerr << "Incomplete message received." << std::endl;
+                processedMessage.clear(); // Clear processedMessage to indicate an error or incomplete state
+                allMessages.erase(msg);
+            }
+        }
+    }
+    
+    // Clear temp_storage_binary since it's been processed or moved to partialMessage
+    temp_storage_binary.clear();
+    data_available = false; // Reflect whether there's pending data to process
+
+    return allMessages;
+}
+
+void SerialPort::ReadFromBuffer() 
+{
     boost::asio::streambuf read_buf;       // A buffer for incoming data, part of Boost.Asio
     boost::system::error_code error_code;  // Info about any error that occurs
 
     // Attempt to read up to TARGET_MESSAGE_SIZE bytes
     std::size_t n = boost::asio::read(serial, read_buf.prepare(TARGET_MESSAGE_SIZE), error_code);
-    // Make the read data available in the input sequence
-    read_buf.commit(n);
+    read_buf.commit(n); // Make the read data available in the input sequence
 
     // Logging the number of bytes read for debugging purposes
     std::cout << "\nNumber of bytes been read: " << n << std::endl;
 
     // Handle possible read errors
-    if (error_code && error_code != boost::asio::error::eof) { // EOF is expected for the last read
+    if (error_code && error_code != boost::asio::error::eof) // EOF is expected for the last read
+    { 
         std::cerr << "Error during read: " << error_code.message() << std::endl;
         return;  // Early exit on error
     }
@@ -363,12 +519,14 @@ void SerialPort::ReadFromBuffer() {
                                  boost::asio::buffers_begin(read_buf.data()) + n);
 
     // Ensure we actually read data before proceeding
-    if (!dataPtr.empty()) {
+    if (!dataPtr.empty()) 
+    {
         std::lock_guard<std::mutex> read_lock(mtx); // Lock the mutex to safely access shared data
         temp_storage_binary.insert(temp_storage_binary.end(), dataPtr.begin(), dataPtr.end());
 
         // Notify that new data is available if this is a transition from no data to having data
-        if (!data_available) {
+        if (!data_available) 
+        {
             data_available = true;
             cv.notify_one(); // Notify potentially waiting threads that new data is available
             std::cout << "Stored the message " << n << " bytes" << std::endl;
@@ -387,24 +545,26 @@ bool SerialPort::IsSerialConnectionOpen() const { return serial.is_open(); }
 
 bool SerialPort::WriteToBuffer(const std::string &data)
 {
-    try {
+    try 
+    {
         // Write data synchronously
         boost::asio::write(serial, boost::asio::buffer(data));
         return true; // Data was successfully written
     }
-    catch(const boost::system::system_error& e) {
+    catch(const boost::system::system_error& e) 
+    {
         std::cerr << "Failed to write to serial port: " << e.what() << std::endl;
         return false; // An error occurred
     }
 }
 
-uint16_t SerialPort::calculateChecksumBinary(const std::vector<uint8_t>& data) {
+uint16_t SerialPort::calculateChecksumBinary(const std::vector<uint8_t>& data) 
+{
     uint16_t checksum = 0;
-    for (auto byte : data) {
+    for (auto byte : data) 
+    {
         checksum += byte;
     }
-    //checksum = htobe16(checksum);
     
-    // The final sum is the checksum
     return checksum;
 }

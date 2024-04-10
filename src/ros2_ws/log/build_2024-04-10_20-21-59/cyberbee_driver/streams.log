@@ -1,0 +1,48 @@
+[0.010s] Invoking command in '/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/build/cyberbee_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ubuntu/ros2_ws/install/subscribe_to_mocap:/home/ubuntu/ros2_ws/install/driver_dps310:/opt/ros/humble /usr/bin/cmake --build /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/build/cyberbee_driver -- -j8 -l8
+[0.056s] [35m[1mConsolidate compiler generated dependencies of target cyberbee_driver_node[0m
+[0.084s] [ 20%] [32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/driver_main.cpp.o[0m
+[0.084s] [ 40%] [32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/data_receiver_ros.cpp.o[0m
+[0.085s] [ 60%] [32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/serial_comm.cpp.o[0m
+[0.086s] [ 80%] [32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/data_sender.cpp.o[0m
+[1.183s] In file included from [01m[K/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/src/cyberbee_driver/src/serial_comm.cpp:14[m[K:
+[1.183s] [01m[K/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:[m[K In constructor ‘[01m[KSerialPort::SerialPort(const string&, unsigned int)[m[K’:
+[1.183s] [01m[K/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:37:30:[m[K [01;35m[Kwarning: [m[K‘[01m[KSerialPort::serial[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+[1.184s]    37 |     boost::asio::serial_port [01;35m[Kserial[m[K;
+[1.184s]       |                              [01;35m[K^~~~~~[m[K
+[1.184s] [01m[K/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:15:17:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kstd::string SerialPort::port[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+[1.184s]    15 |     std::string [01;35m[Kport[m[K;
+[1.184s]       |                 [01;35m[K^~~~[m[K
+[1.184s] [01m[K/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/src/cyberbee_driver/src/serial_comm.cpp:31:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+[1.184s]    31 | [01;35m[KSerialPort[m[K::SerialPort(const std::string& port, unsigned int baud_rate)
+[1.184s]       | [01;35m[K^~~~~~~~~~[m[K
+[1.201s] [01m[K/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/src/cyberbee_driver/src/data_sender.cpp:[m[K In member function ‘[01m[Kuint16_t DataSender::calculateCheckSum(const string&)[m[K’:
+[1.201s] [01m[K/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/src/cyberbee_driver/src/data_sender.cpp:22:59:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kmessage[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+[1.201s]    22 | uint16_t DataSender::calculateCheckSum([01;35m[Kconst std::string& message[m[K) { return 0; }
+[1.201s]       |                                        [01;35m[K~~~~~~~~~~~~~~~~~~~^~~~~~~[m[K
+[2.561s] [01m[K/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/src/cyberbee_driver/src/driver_main.cpp:[m[K In function ‘[01m[Kint main()[m[K’:
+[2.561s] [01m[K/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/src/cyberbee_driver/src/driver_main.cpp:75:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kcommand_input[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[2.561s]    75 |     char [01;35m[Kcommand_input[m[K;
+[2.562s]       |          [01;35m[K^~~~~~~~~~~~~[m[K
+[4.798s] [100%] [32m[1mLinking CXX executable cyberbee_driver_node[0m
+[5.070s] [100%] Built target cyberbee_driver_node
+[5.077s] Invoked command in '/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/build/cyberbee_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ubuntu/ros2_ws/install/subscribe_to_mocap:/home/ubuntu/ros2_ws/install/driver_dps310:/opt/ros/humble /usr/bin/cmake --build /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/build/cyberbee_driver -- -j8 -l8
+[5.110s] Invoking command in '/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/build/cyberbee_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ubuntu/ros2_ws/install/subscribe_to_mocap:/home/ubuntu/ros2_ws/install/driver_dps310:/opt/ros/humble /usr/bin/cmake --install /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/build/cyberbee_driver
+[5.117s] -- Install configuration: ""
+[5.117s] -- Installing: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/lib/cyberbee_driver/cyberbee_driver_node
+[5.119s] -- Set runtime path of "/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/lib/cyberbee_driver/cyberbee_driver_node" to ""
+[5.119s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/ament_index/resource_index/package_run_dependencies/cyberbee_driver
+[5.119s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/ament_index/resource_index/parent_prefix_path/cyberbee_driver
+[5.119s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/ament_prefix_path.sh
+[5.119s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/ament_prefix_path.dsv
+[5.119s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/path.sh
+[5.119s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/path.dsv
+[5.119s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.bash
+[5.120s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.sh
+[5.120s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.zsh
+[5.120s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.dsv
+[5.120s] -- Installing: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/package.dsv
+[5.120s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/ament_index/resource_index/packages/cyberbee_driver
+[5.120s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/cmake/cyberbee_driverConfig.cmake
+[5.120s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/cmake/cyberbee_driverConfig-version.cmake
+[5.120s] -- Up-to-date: /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/package.xml
+[5.122s] Invoked command in '/home/ubuntu/dev_ws/src/Driver/src/ros2_ws/build/cyberbee_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ubuntu/ros2_ws/install/subscribe_to_mocap:/home/ubuntu/ros2_ws/install/driver_dps310:/opt/ros/humble /usr/bin/cmake --install /home/ubuntu/dev_ws/src/Driver/src/ros2_ws/build/cyberbee_driver

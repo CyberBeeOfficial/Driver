@@ -16,21 +16,6 @@ class DataReceiverRos
     void readData();
     void processData();
     void updateBaudRate(unsigned int newBaudRate);
-    
-    void ParseOdometryMsg(const std::vector<uint8_t>& message);
-    void ParsePoseStampedMsg(const std::vector<uint8_t>& message);
-    void ParseImuMsg(const std::vector<uint8_t>& message);
-    void ParseStatusMsg(const std::vector<uint8_t>& message);
-    void ParseErrorMsg(const std::vector<uint8_t>& message);
-
-    float bigEndianToFloat(const std::vector<uint8_t>& data, size_t offset);
-    uint64_t bigEndianToUint64(const std::vector<uint8_t>& data, size_t offset);
-    uint16_t calculateChecksumBinary(const std::vector<uint8_t>& data);
-    
-    void constructOdometryMessage(const std::vector<uint8_t>& message);
-    void constructPoseStampedMessage(const std::vector<uint8_t>& message);
-    void constructImuMessage(const std::vector<uint8_t>& message);
-
 
    private:
     SerialPort* serialPort_;
@@ -42,6 +27,15 @@ class DataReceiverRos
     rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odometry_publisher_;
     rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr Pose_publisher_;
     rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr Imu_publisher_;
+
+    void ParseOdometryMsg(const std::vector<uint8_t>& message);
+    void ParsePoseStampedMsg(const std::vector<uint8_t>& message);
+    void ParseImuMsg(const std::vector<uint8_t>& message);
+    void ParseStatusMsg(const std::vector<uint8_t>& message);
+    void ParseErrorMsg(const std::vector<uint8_t>& message);
+
+    float bigEndianToFloat(const std::vector<uint8_t>& data, size_t offset);
+    uint64_t bigEndianToUint64(const std::vector<uint8_t>& data, size_t offset);
 };
 
 #endif  // DATA_RECEIVER_ROS_HPP

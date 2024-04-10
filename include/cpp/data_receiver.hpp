@@ -20,7 +20,6 @@ class DataReceiver
 
     float bigEndianToFloat(const std::vector<uint8_t>& data, size_t offset);
     uint64_t bigEndianToUint64(const std::vector<uint8_t>& data, size_t offset);
-    uint16_t calculateChecksumBinary(const std::vector<uint8_t>& data);
 
    private:
     SerialPort* serialPort_;
