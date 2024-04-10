@@ -57,35 +57,46 @@ void DataReceiver::readData()
 
 void DataReceiver::processData()
 {
+    std::vector<std::uint8_t> message;
     while (!stopThreads)
     {
         // This part needs to check the message and only than parse it in a different function
-        std::vector<uint8_t> message = serialPort_->ExtractMessageBinary();  // Assuming this method now just
+        std::vector<std::vector<uint8_t>> messages = serialPort_->ExtractMessageBinary();  // Assuming this method now just
                                             // extracts based on `temp_storage`
-        uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
-
-        if (!message.empty())
+        
+        for(auto msg = messages.begin(); msg != messages.end(); msg++)
         {
-            switch(messageType)
+            message.assign((*msg).begin() + 1, (*msg).end() - 3); // without start byte and end byte
+
+            uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
+
+            if (!message.empty())
             {
-                case ODOMETRY:
-                    ParseOdometryMsg(message);
-                    break;
-                case POSITION:
-                    ParsePoseStampedMsg(message);
-                    break;
-                case IMU:
-                    ParseImuMsg(message);
-                    break;
-                case STATUS:
-                    ParseStatusMsg(message);
-                    break;
-                case ERROR:
-                    ParseErrorMsg(message);
-                    break;
-                default:
-                    
-                    break;
+                switch(messageType)
+                {
+                    case ODOMETRY:
+                        std::cout << "Odometry message" << std::endl;
+                        ParseOdometryMsg(message);
+                        break;
+                    case POSITION:
+                        std::cout << "PoseStamped message" << std::endl;
+                        ParsePoseStampedMsg(message);
+                        break;
+                    case IMU:
+                        std::cout << "Imu message" << std::endl;
+                        ParseImuMsg(message);
+                        break;
+                    case STATUS:
+                        std::cout << "Status message" << std::endl;
+                        ParseStatusMsg(message);
+                        break;
+                    case ERROR:
+                        std::cout << "Error message" << std::endl;
+                        ParseErrorMsg(message);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -101,10 +112,6 @@ void DataReceiver::stop()
 
 void DataReceiver::ParseOdometryMsg(const std::vector<uint8_t>& message)
 {
-    if (message.size() < 52) { // Adjusted for the new message structure
-        throw std::runtime_error("Incomplete message received.");
-    }
-
     // Extracting and printing the 2-byte message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;
@@ -141,24 +148,20 @@ void DataReceiver::ParseOdometryMsg(const std::vector<uint8_t>& message)
     std::cout << std::endl;
 
     // Verifying and printing the 2-byte checksum
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum 
-              << " Received Checksum: " << receivedChecksum << std::endl;
+    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
+    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
+    // std::cout << "Calculated Checksum: " << calculatedChecksum 
+    //           << " Received Checksum: " << receivedChecksum << std::endl;
 
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully.\n" << std::endl;
-    }
+    // if (calculatedChecksum != receivedChecksum) {
+    //     std::cerr << "Checksum mismatch." << std::endl;
+    // } else {
+    //     std::cout << "Checksum verified successfully.\n" << std::endl;
+    // }
 }
 
 void DataReceiver::ParsePoseStampedMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() < 40) { // Adjust based on your message structure
-        throw std::runtime_error("Incomplete PoseStamped message received.");
-    }
-
     // Extracting message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;
@@ -182,22 +185,18 @@ void DataReceiver::ParsePoseStampedMsg(const std::vector<uint8_t>& message)
     std::cout << std::endl;
 
     // Checksum validation
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully." << std::endl;
-    }
+    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
+    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
+    // std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
+    // if (calculatedChecksum != receivedChecksum) {
+    //     std::cerr << "Checksum mismatch." << std::endl;
+    // } else {
+    //     std::cout << "Checksum verified successfully." << std::endl;
+    // }
 }
 
 void DataReceiver::ParseImuMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() < 52) { // Adjust based on the expected length
-        throw std::runtime_error("Incomplete IMU message received.");
-    }
-
     // Extracting message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;
@@ -228,22 +227,18 @@ void DataReceiver::ParseImuMsg(const std::vector<uint8_t>& message)
     std::cout << std::endl;
 
     // Checksum validation
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully." << std::endl;
-    }
+    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[message.size() - 2]) << 8) | message[message.size() - 1];
+    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
+    // std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
+    // if (calculatedChecksum != receivedChecksum) {
+    //     std::cerr << "Checksum mismatch." << std::endl;
+    // } else {
+    //     std::cout << "Checksum verified successfully." << std::endl;
+    // }
 }
 
 void DataReceiver::ParseStatusMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() != 20) { // Fixed size: 2 bytes type, 16 bytes data, 2 bytes checksum
-        throw std::runtime_error("Incorrect status message size.");
-    }
-
     // Extracting message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;
@@ -256,22 +251,18 @@ void DataReceiver::ParseStatusMsg(const std::vector<uint8_t>& message)
     std::cout << std::dec << std::endl; // Switch back to decimal output
 
     // Checksum validation
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[18]) << 8) | message[19];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully." << std::endl;
-    }
+    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[18]) << 8) | message[19];
+    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
+    // std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
+    // if (calculatedChecksum != receivedChecksum) {
+    //     std::cerr << "Checksum mismatch." << std::endl;
+    // } else {
+    //     std::cout << "Checksum verified successfully." << std::endl;
+    // }
 }
 
 void DataReceiver::ParseErrorMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() != 20) { // Fixed size: 2 bytes type, 16 bytes data, 2 bytes checksum
-        throw std::runtime_error("Incorrect error message size.");
-    }
-
     // Extracting message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;
@@ -284,14 +275,14 @@ void DataReceiver::ParseErrorMsg(const std::vector<uint8_t>& message)
     std::cout << std::dec << std::endl; // Switch back to decimal output
 
     // Checksum validation
-    uint16_t receivedChecksum = (static_cast<uint16_t>(message[18]) << 8) | message[19];
-    uint16_t calculatedChecksum = calculateChecksumBinary(message);
-    std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
-    if (calculatedChecksum != receivedChecksum) {
-        std::cerr << "Checksum mismatch." << std::endl;
-    } else {
-        std::cout << "Checksum verified successfully." << std::endl;
-    }
+    // uint16_t receivedChecksum = (static_cast<uint16_t>(message[18]) << 8) | message[19];
+    // uint16_t calculatedChecksum = calculateChecksumBinary(message);
+    // std::cout << "Calculated Checksum: " << calculatedChecksum << " Received Checksum: " << receivedChecksum << std::endl;
+    // if (calculatedChecksum != receivedChecksum) {
+    //     std::cerr << "Checksum mismatch." << std::endl;
+    // } else {
+    //     std::cout << "Checksum verified successfully." << std::endl;
+    // }
 }
 
 // ------------------------------- Helper functions ------------------------------------
