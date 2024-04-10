@@ -112,6 +112,10 @@ void DataReceiver::stop()
 
 void DataReceiver::ParseOdometryMsg(const std::vector<uint8_t>& message)
 {
+    if (message.size() < 50) { // Adjusted for the new message structure
+        throw std::runtime_error("Incomplete message received.");
+    }
+
     // Extracting and printing the 2-byte message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;
@@ -162,6 +166,10 @@ void DataReceiver::ParseOdometryMsg(const std::vector<uint8_t>& message)
 
 void DataReceiver::ParsePoseStampedMsg(const std::vector<uint8_t>& message) 
 {
+    if (message.size() < 38) { // Adjusted for the new message structure
+        throw std::runtime_error("Incomplete message received.");
+    }
+    
     // Extracting message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;
@@ -197,6 +205,10 @@ void DataReceiver::ParsePoseStampedMsg(const std::vector<uint8_t>& message)
 
 void DataReceiver::ParseImuMsg(const std::vector<uint8_t>& message) 
 {
+    if (message.size() < 50) { // Adjusted for the new message structure
+        throw std::runtime_error("Incomplete message received.");
+    }
+ 
     // Extracting message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;
@@ -239,6 +251,10 @@ void DataReceiver::ParseImuMsg(const std::vector<uint8_t>& message)
 
 void DataReceiver::ParseStatusMsg(const std::vector<uint8_t>& message) 
 {
+    if (message.size() < 18) { // Adjusted for the new message structure
+        throw std::runtime_error("Incomplete message received.");
+    }
+    
     // Extracting message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;
@@ -263,6 +279,10 @@ void DataReceiver::ParseStatusMsg(const std::vector<uint8_t>& message)
 
 void DataReceiver::ParseErrorMsg(const std::vector<uint8_t>& message) 
 {
+    if (message.size() < 18) { // Adjusted for the new message structure
+        throw std::runtime_error("Incomplete message received.");
+    }
+    
     // Extracting message type
     uint16_t messageType = (static_cast<uint16_t>(message[0]) << 8) | message[1];
     std::cout << "Message Type: " << messageType << std::endl;

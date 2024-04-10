@@ -86,16 +86,16 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
     
     int i;
 
-    // std::stringstream hexStream1;
-    // hexStream1 << "temp_storage_binary: ";
-    // for (auto &byte : temp_storage_binary) {
-    //     // Ensure that std::hex and formatting applies to each byte correctly
-    //     hexStream1 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
-    // }
+    std::stringstream hexStream1;
+    hexStream1 << "temp_storage_binary: ";
+    for (auto &byte : temp_storage_binary) {
+        // Ensure that std::hex and formatting applies to each byte correctly
+        hexStream1 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
+    }
 
-    // // Use the insertion operator (<<) to output the stringstream's contents to std::cout
-    // std::cout << hexStream1.str() << std::endl;
-    // std::cout << "\nbefore checking for partial\n" << std::endl;
+    // Use the insertion operator (<<) to output the stringstream's contents to std::cout
+    std::cout << hexStream1.str() << std::endl;
+    std::cout << "\nbefore checking for partial\n" << std::endl;
 
     // Prepend any existing partial message to the start of the temp_storage_binary
     if (!partialMessage.empty()) {
@@ -106,68 +106,90 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
 
     while(!temp_storage_binary.empty() && !uncompleteMsg)
     {
-        // std::stringstream hexStream101;
-        // hexStream101 << "temp_storage_binary before loop: ";
-        // for (auto &byte : temp_storage_binary) {
-        //     // Ensure that std::hex and formatting applies to each byte correctly
-        //     hexStream101 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
-        // }
+        std::stringstream hexStream101;
+        hexStream101 << "temp_storage_binary before for loop: ";
+        for (auto &byte : temp_storage_binary) {
+            // Ensure that std::hex and formatting applies to each byte correctly
+            hexStream101 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
+        }
 
-        //std::cout << hexStream101.str() << std::endl;
+        std::cout << hexStream101.str() << std::endl;
+        std::cout << "\n" << std::endl;
         
         //std::cout << "got inside the while" << std::endl;
         i = 0;
-        for (auto it = temp_storage_binary.begin(); it != temp_storage_binary.end() && !endByteFound; ++it) {
+        for (auto it = temp_storage_binary.begin(); it != temp_storage_binary.end() && !endByteFound; ++it) 
+        {
             uint8_t byte = *it;
-            if (!startByteFound && byte == START_BYTE) { //still didn't found the start byte so we ignore
-                startByteFound = true;                   //found start byte we can start creating a message
-                message.clear();
-                message.push_back(START_BYTE);           // Reset message for a fresh start
-            } else if (startByteFound) {
-                if (byte == END_BYTE && !escapeNextByte) {
-                    if (startByteFound){
-                        message.push_back(byte); // Ensure END_BYTE is part of the message
-                        endByteFound = true; // Complete message found
-                    }
-                } else if (byte == ESCAPE_BYTE && !escapeNextByte) { //this logic can ruin --------------------------------------
-                    escapeNextByte = true; // Next byte is escaped, handle accordingly
-                } else {
-                    if (escapeNextByte){
-                        if(byte == END_BYTE || byte == START_BYTE) {
-                            escapeNextByte = false; // Reset escape state
+            if (!startByteFound && byte == START_BYTE) // [start wasn't found yet and current byte is equal to start]
+            { 
+                startByteFound = true;                   
+                message.clear();                       
+                message.push_back(START_BYTE);           
+            } 
+            else if(startByteFound) // won't enter until we found the start byte
+            {
+                if (byte == END_BYTE && !escapeNextByte) // if the byte found is exit byte, and no escape byte is in front 
+                {                                        // of it
+                    message.push_back(byte); 
+                    endByteFound = true; 
+                } 
+                else if(byte == START_BYTE && !escapeNextByte) //if I found another start byte but without escape byte 
+                {                                              // beforehand
+                    endByteFound = true;
+                }
+                else if (byte == ESCAPE_BYTE && !escapeNextByte) // a escape byte was found but first time
+                {                                                // more relevent to the next byte
+                    escapeNextByte = true; 
+                }
+                else 
+                {
+                    if (escapeNextByte) // if there is an escape byte we check if it is for esc byte or data
+                    {
+                        if(byte == START_BYTE || byte == END_BYTE) 
+                        {
+                            escapeNextByte = false;
+                            message.push_back(byte);
                         }
-                        else {
+                        else if(byte == ESCAPE_BYTE) 
+                        {
+                            message.push_back(ESCAPE_BYTE);
+                        }
+                        else 
+                        {
                             message.push_back(ESCAPE_BYTE);
                             message.push_back(byte);
                             escapeNextByte = false;
                         }
                     }
-                    else {
+                    else 
+                    {
                         message.push_back(byte); // Add byte to current message
                     }
                 }
             }
-            //it = temp_storage_binary.erase(it);
             i++;
         }
 
-        // std::stringstream hexStream10;
-        // hexStream10 << "temp_storage_binary after loop: ";
-        // for (auto &byte : temp_storage_binary) {
-        //     // Ensure that std::hex and formatting applies to each byte correctly
-        //     hexStream10 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
-        // }
+        std::stringstream hexStream10;
+        hexStream10 << "temp_storage_binary after for loop: ";
+        for (auto &byte : temp_storage_binary) {
+            // Ensure that std::hex and formatting applies to each byte correctly
+            hexStream10 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
+        }
 
-        // std::cout << hexStream10.str() << std::endl;
+        std::cout << hexStream10.str() << std::endl;
+        std::cout << "\n" << std::endl;
 
-        // std::stringstream hexStream20;
-        // hexStream20 << "message: ";
-        // for (auto &byte : message) {
-        //     // Ensure that std::hex and formatting applies to each byte correctly
-        //     hexStream20 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
-        // }
+        std::stringstream hexStream20;
+        hexStream20 << "message: ";
+        for (auto &byte : message) {
+            // Ensure that std::hex and formatting applies to each byte correctly
+            hexStream20 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
+        }
 
-        // std::cout << hexStream20.str() << std::endl;
+        std::cout << hexStream20.str() << std::endl;
+        std::cout << "\n" << std::endl;
         
         if(endByteFound)
         {
@@ -177,16 +199,16 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
 
         std::vector<uint8_t> temp = allMessages.back();
 
-        // std::stringstream hexStream100;
-        // hexStream100 << "check: ";
-        // for (auto &byte : temp) {
-        //     // Ensure that std::hex and formatting applies to each byte correctly
-        //     hexStream100 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
-        // }
+        std::stringstream hexStream100;
+        hexStream100 << "check: ";
+        for (auto &byte : temp) {
+            // Ensure that std::hex and formatting applies to each byte correctly
+            hexStream100 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
+        }
 
-        // std::cout << hexStream100.str() << std::endl;
+        std::cout << hexStream100.str() << std::endl;
 
-        //std::cout << "saved the new complete message" << std::endl;
+        std::cout << "\nsaved the new complete message" << std::endl;
 
         if(endByteFound && startByteFound)
         {
@@ -196,13 +218,14 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
             uncompleteMsg = true;
         }
         endByteFound = false;
+        startByteFound = false;
         
         //std::cout << "deleted the message\n" << std::endl;
 
     }
 
-    // std::cout << "finished going throught temporary ExtractMessageBinary" << std::endl;
-    // std::cout << "\n" << std::endl;
+    std::cout << "finished going throught temporary at ExtractMessageBinary" << std::endl;
+    std::cout << "\n" << std::endl;
     // std::cout << endByteFound << std::endl;
     // std::cout << "\n" << std::endl;
 
@@ -212,43 +235,43 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
             partialMessage.insert(partialMessage.begin(), temp_storage_binary.begin(), temp_storage_binary.end());
             temp_storage_binary.clear();
         }
-        std::cout << "finished loop in ExtractMessageBinary" << std::endl;
+        std::cout << "\nleft partial message in ExtractMessageBinary" << std::endl;
     }
 
     // std::cout << "\n after if (!endByteFound)\n" << std::endl;
 
-    // std::stringstream hexStream2;
-    // hexStream2 << "message: ";
-    // for (auto &byte : message) {
-    //     // Ensure that std::hex and formatting applies to each byte correctly
-    //     hexStream2 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
-    // }
+    std::stringstream hexStream2;
+    hexStream2 << "message: ";
+    for (auto &byte : message) {
+        // Ensure that std::hex and formatting applies to each byte correctly
+        hexStream2 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
+    }
 
     // // Use the insertion operator (<<) to output the stringstream's contents to std::cout
-    // std::cout << hexStream2.str() << std::endl;
-    // std::cout << "\n" << std::endl;
+    std::cout << hexStream2.str() << std::endl;
+    std::cout << "\n" << std::endl;
 
-    // std::stringstream hexStream3;
-    // hexStream3 << "partialMessage: ";
-    // for (auto &byte : partialMessage) {
-    //     // Ensure that std::hex and formatting applies to each byte correctly
-    //     hexStream3 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
-    // }
-
-    // // Use the insertion operator (<<) to output the stringstream's contents to std::cout
-    // std::cout << hexStream3.str() << std::endl;
-    // std::cout << "\n" << std::endl;
-
-    // std::stringstream hexStream4;
-    // hexStream4 << "temp_storage_binary: ";
-    // for (auto &byte : temp_storage_binary) {
-    //     // Ensure that std::hex and formatting applies to each byte correctly
-    //     hexStream4 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
-    // }
+    std::stringstream hexStream3;
+    hexStream3 << "partialMessage: ";
+    for (auto &byte : partialMessage) {
+        // Ensure that std::hex and formatting applies to each byte correctly
+        hexStream3 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
+    }
 
     // // Use the insertion operator (<<) to output the stringstream's contents to std::cout
-    // std::cout << hexStream4.str() << std::endl;
-    // std::cout << "\n" << std::endl;
+    std::cout << hexStream3.str() << std::endl;
+    std::cout << "\n" << std::endl;
+
+    std::stringstream hexStream4;
+    hexStream4 << "temp_storage_binary: ";
+    for (auto &byte : temp_storage_binary) {
+        // Ensure that std::hex and formatting applies to each byte correctly
+        hexStream4 << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned>(byte) << " ";
+    }
+
+    // // Use the insertion operator (<<) to output the stringstream's contents to std::cout
+    std::cout << hexStream4.str() << std::endl;
+    std::cout << "\n" << std::endl;
 
     // Process the complete message, if any
     for(auto msg = allMessages.begin(); msg != allMessages.end(); msg++)
@@ -278,6 +301,7 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
                     std::cerr << "Checksum mismatch." << std::endl;
                     // Handle checksum mismatch, perhaps clear processedMessage to indicate an error
                     processedMessage.clear();
+                    allMessages.erase(msg);
                 } else {
                     //std::cerr << "Checksum successfully verified." << std::endl;
                     // Checksum valid, processedMessage contains the verified message data
@@ -285,6 +309,7 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
             } else {
                 std::cerr << "Incomplete message received." << std::endl;
                 processedMessage.clear(); // Clear processedMessage to indicate an error or incomplete state
+                allMessages.erase(msg);
             }
         }
     }
@@ -295,8 +320,8 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
 
     //std::cout << "emptyed temp in ExtractMessageBinary" << std::endl;
 
-    if(!partialMessage.empty())
-    {
+    // if(!partialMessage.empty())
+    // {
         // std::stringstream hexStream300;
         // hexStream300 << "partialMessage: ";
         // for (auto &byte : partialMessage) {
@@ -307,7 +332,7 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary() {
         // // Use the insertion operator (<<) to output the stringstream's contents to std::cout
         // std::cout << hexStream300.str() << std::endl;
         // std::cout << "the partial message to next time\n" << std::endl;
-    }
+    // }
 
     data_available = false; // Reflect whether there's pending data to process
 
