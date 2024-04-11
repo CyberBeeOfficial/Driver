@@ -151,6 +151,7 @@ void DataReceiverRos::ParseOdometryMsg(const std::vector<uint8_t>& message)
     // Additional fields like angular velocity can be set similarly if needed
     if(rclcpp::ok())
     {
+        std::cout << "rclcpp ok so we publish odometry" << std::endl;
         odometry_publisher_->publish(*odometryMsg);
     }
 }
@@ -186,7 +187,9 @@ void DataReceiverRos::ParsePoseStampedMsg(const std::vector<uint8_t>& message)
     poseStampedMsg->pose.orientation.z = bigEndianToFloat(message, offset + 12);
 
     // Publish the message
-    if(rclcpp::ok()) {
+    if(rclcpp::ok()) 
+    {
+        std::cout << "rclcpp ok so we publish pose" << std::endl;
         Pose_publisher_->publish(*poseStampedMsg);
     }
 }
@@ -228,14 +231,17 @@ void DataReceiverRos::ParseImuMsg(const std::vector<uint8_t>& message)
     imuMsg->linear_acceleration.z = bigEndianToFloat(message, offset + 8);
 
     // Publish the message
-    if(rclcpp::ok()) {
+    if(rclcpp::ok()) 
+    {
+        std::cout << "rclcpp ok so we publish imu" << std::endl;
         Imu_publisher_->publish(*imuMsg);
     }
 }
 
 void DataReceiverRos::ParseStatusMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() != 18) { // Fixed size: 2 bytes type, 16 bytes data, 2 bytes checksum
+    if (message.size() != 18) 
+    { 
         throw std::runtime_error("Incorrect status message size.");
     }
 
@@ -253,7 +259,8 @@ void DataReceiverRos::ParseStatusMsg(const std::vector<uint8_t>& message)
 
 void DataReceiverRos::ParseErrorMsg(const std::vector<uint8_t>& message) 
 {
-    if (message.size() != 18) { // Fixed size: 2 bytes type, 16 bytes data, 2 bytes checksum
+    if (message.size() != 18) 
+    { 
         throw std::runtime_error("Incorrect error message size.");
     }
 
