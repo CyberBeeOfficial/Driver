@@ -1,0 +1,19 @@
+In file included from [01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/serial_comm.cpp:14[m[K:
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:[m[K In constructor ‘[01m[KSerialPort::SerialPort(const string&, unsigned int)[m[K’:
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:37:30:[m[K [01;35m[Kwarning: [m[K‘[01m[KSerialPort::serial[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+   37 |     boost::asio::serial_port [01;35m[Kserial[m[K;
+      |                              [01;35m[K^~~~~~[m[K
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:15:17:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kstd::string SerialPort::port[m[K’ [[01;35m[K-Wreorder[m[K]
+   15 |     std::string [01;35m[Kport[m[K;
+      |                 [01;35m[K^~~~[m[K
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/serial_comm.cpp:31:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+   31 | [01;35m[KSerialPort[m[K::SerialPort(const std::string& port, unsigned int baud_rate)
+      | [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/data_sender.cpp:[m[K In member function ‘[01m[Kuint16_t DataSender::calculateCheckSum(const string&)[m[K’:
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/data_sender.cpp:22:59:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kmessage[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+   22 | uint16_t DataSender::calculateCheckSum([01;35m[Kconst std::string& message[m[K) { return 0; }
+      |                                        [01;35m[K~~~~~~~~~~~~~~~~~~~^~~~~~~[m[K
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/driver_main.cpp:[m[K In function ‘[01m[Kint main()[m[K’:
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/driver_main.cpp:75:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kcommand_input[m[K’ [[01;35m[K-Wunused-variable[m[K]
+   75 |     char [01;35m[Kcommand_input[m[K;
+      |          [01;35m[K^~~~~~~~~~~~~[m[K

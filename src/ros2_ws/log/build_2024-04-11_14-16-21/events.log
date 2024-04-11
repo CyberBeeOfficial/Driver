@@ -1,0 +1,183 @@
+[0.000000] (-) TimerEvent: {}
+[0.000456] (cyberbee_driver) JobQueued: {'identifier': 'cyberbee_driver', 'dependencies': OrderedDict()}
+[0.001293] (cyberbee_driver) JobStarted: {'identifier': 'cyberbee_driver'}
+[0.010668] (cyberbee_driver) JobProgress: {'identifier': 'cyberbee_driver', 'progress': 'cmake'}
+[0.011197] (cyberbee_driver) Command: {'cmd': ['/usr/bin/cmake', '/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver', '-DCMAKE_INSTALL_PREFIX=/home/dennis/Driver/src/ros2_ws/install/cyberbee_driver'], 'cwd': '/home/dennis/Driver/src/ros2_ws/build/cyberbee_driver', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('LANGUAGE', 'en_IL:en'), ('USER', 'dennis'), ('SSH_AGENT_PID', '1351'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/galactic/opt/yaml_cpp_vendor/lib:/opt/ros/galactic/opt/rviz_ogre_vendor/lib:/opt/ros/galactic/lib/x86_64-linux-gnu:/opt/ros/galactic/lib'), ('HOME', '/home/dennis'), ('OLDPWD', '/home/dennis'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('MANAGERPID', '1244'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/dennis/Driver/src/ros2_ws/install'), ('ROS_DISTRO', 'galactic'), ('LOGNAME', 'dennis'), ('JOURNAL_STREAM', '8:43225'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'dennis'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/galactic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/VivoBook-ASUS:@/tmp/.ICE-unix/1389,unix/VivoBook-ASUS:/tmp/.ICE-unix/1389'), ('INVOCATION_ID', 'ecac7e6898a24aa6b6b22e71860feb15'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3c4e5387_cc4c_4ac2_a774_dc26f54394f1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_IL'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.119'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/dennis/Driver/src/ros2_ws/install/cyberbee_driver:/opt/ros/galactic'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/dennis/Driver/src/ros2_ws/build/cyberbee_driver'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/galactic/lib/python3.8/site-packages'), ('COLCON', '1'), ('VTE_VERSION', '6003'), ('CMAKE_PREFIX_PATH', '/home/dennis/Driver/src/ros2_ws/install/cyberbee_driver:/opt/ros/galactic')]), 'shell': False}
+[0.100092] (-) TimerEvent: {}
+[0.105690] (cyberbee_driver) StdoutLine: {'line': b'-- The C compiler identification is GNU 9.4.0\n'}
+[0.173592] (cyberbee_driver) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 9.4.0\n'}
+[0.177859] (cyberbee_driver) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc\n'}
+[0.200221] (-) TimerEvent: {}
+[0.250949] (cyberbee_driver) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc -- works\n'}
+[0.251848] (cyberbee_driver) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.300365] (-) TimerEvent: {}
+[0.330164] (cyberbee_driver) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.343584] (cyberbee_driver) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.343772] (cyberbee_driver) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.346517] (cyberbee_driver) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++\n'}
+[0.400526] (-) TimerEvent: {}
+[0.433622] (cyberbee_driver) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ -- works\n'}
+[0.434730] (cyberbee_driver) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.500646] (-) TimerEvent: {}
+[0.515441] (cyberbee_driver) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.527315] (cyberbee_driver) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.528400] (cyberbee_driver) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.531573] (cyberbee_driver) StdoutLine: {'line': b'-- Found ament_cmake: 1.1.6 (/opt/ros/galactic/share/ament_cmake/cmake)\n'}
+[0.556177] (cyberbee_driver) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") \n'}
+[0.556362] (cyberbee_driver) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.600815] (-) TimerEvent: {}
+[0.627484] (cyberbee_driver) StdoutLine: {'line': b'-- Found rclcpp: 9.2.2 (/opt/ros/galactic/share/rclcpp/cmake)\n'}
+[0.672962] (cyberbee_driver) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.678921] (cyberbee_driver) StdoutLine: {'line': b'-- Found rosidl_adapter: 2.2.3 (/opt/ros/galactic/share/rosidl_adapter/cmake)\n'}
+[0.701070] (-) TimerEvent: {}
+[0.756910] (cyberbee_driver) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  \n'}
+[0.785659] (cyberbee_driver) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/galactic/include  \n'}
+[0.801187] (-) TimerEvent: {}
+[0.862095] (cyberbee_driver) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.901321] (-) TimerEvent: {}
+[0.918748] (cyberbee_driver) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 3.3.1 (/opt/ros/galactic/share/rmw_implementation_cmake/cmake)\n'}
+[0.921312] (cyberbee_driver) StdoutLine: {'line': b'-- Found rmw_cyclonedds_cpp: 0.22.6 (/opt/ros/galactic/share/rmw_cyclonedds_cpp/cmake)\n'}
+[0.942151] (cyberbee_driver) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_cyclonedds_cpp' as default\n"}
+[0.943059] (cyberbee_driver) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[1.001478] (-) TimerEvent: {}
+[1.025967] (cyberbee_driver) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[1.026202] (cyberbee_driver) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[1.101661] (-) TimerEvent: {}
+[1.107386] (cyberbee_driver) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed\n'}
+[1.107656] (cyberbee_driver) StdoutLine: {'line': b'-- Looking for pthread_create in pthreads\n'}
+[1.170798] (cyberbee_driver) StdoutLine: {'line': b'-- Looking for pthread_create in pthreads - not found\n'}
+[1.170982] (cyberbee_driver) StdoutLine: {'line': b'-- Looking for pthread_create in pthread\n'}
+[1.201812] (-) TimerEvent: {}
+[1.242645] (cyberbee_driver) StdoutLine: {'line': b'-- Looking for pthread_create in pthread - found\n'}
+[1.243932] (cyberbee_driver) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[1.301902] (-) TimerEvent: {}
+[1.387499] (cyberbee_driver) StdoutLine: {'line': b'-- Found nav_msgs: 2.2.4 (/opt/ros/galactic/share/nav_msgs/cmake)\n'}
+[1.401975] (-) TimerEvent: {}
+[1.497282] (cyberbee_driver) StdoutLine: {'line': b'-- Found sensor_msgs: 2.2.4 (/opt/ros/galactic/share/sensor_msgs/cmake)\n'}
+[1.502050] (-) TimerEvent: {}
+[1.602466] (-) TimerEvent: {}
+[1.624010] (cyberbee_driver) StdoutLine: {'line': b'-- Configuring done\n'}
+[1.635175] (cyberbee_driver) StdoutLine: {'line': b'-- Generating done\n'}
+[1.636809] (cyberbee_driver) StdoutLine: {'line': b'-- Build files have been written to: /home/dennis/Driver/src/ros2_ws/build/cyberbee_driver\n'}
+[1.644549] (cyberbee_driver) CommandEnded: {'returncode': 0}
+[1.647234] (cyberbee_driver) JobProgress: {'identifier': 'cyberbee_driver', 'progress': 'build'}
+[1.647457] (cyberbee_driver) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/dennis/Driver/src/ros2_ws/build/cyberbee_driver', '--', '-j8', '-l8'], 'cwd': '/home/dennis/Driver/src/ros2_ws/build/cyberbee_driver', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('LANGUAGE', 'en_IL:en'), ('USER', 'dennis'), ('SSH_AGENT_PID', '1351'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/galactic/opt/yaml_cpp_vendor/lib:/opt/ros/galactic/opt/rviz_ogre_vendor/lib:/opt/ros/galactic/lib/x86_64-linux-gnu:/opt/ros/galactic/lib'), ('HOME', '/home/dennis'), ('OLDPWD', '/home/dennis'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('MANAGERPID', '1244'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/dennis/Driver/src/ros2_ws/install'), ('ROS_DISTRO', 'galactic'), ('LOGNAME', 'dennis'), ('JOURNAL_STREAM', '8:43225'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'dennis'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/galactic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/VivoBook-ASUS:@/tmp/.ICE-unix/1389,unix/VivoBook-ASUS:/tmp/.ICE-unix/1389'), ('INVOCATION_ID', 'ecac7e6898a24aa6b6b22e71860feb15'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3c4e5387_cc4c_4ac2_a774_dc26f54394f1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_IL'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.119'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/dennis/Driver/src/ros2_ws/install/cyberbee_driver:/opt/ros/galactic'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/dennis/Driver/src/ros2_ws/build/cyberbee_driver'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/galactic/lib/python3.8/site-packages'), ('COLCON', '1'), ('VTE_VERSION', '6003'), ('CMAKE_PREFIX_PATH', '/home/dennis/Driver/src/ros2_ws/install/cyberbee_driver:/opt/ros/galactic')]), 'shell': False}
+[1.687020] (cyberbee_driver) StdoutLine: {'line': b'\x1b[35m\x1b[1mScanning dependencies of target cyberbee_driver_node\x1b[0m\n'}
+[1.702552] (-) TimerEvent: {}
+[1.732566] (cyberbee_driver) StdoutLine: {'line': b'[ 20%] \x1b[32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/data_receiver_ros.cpp.o\x1b[0m\n'}
+[1.732947] (cyberbee_driver) StdoutLine: {'line': b'[ 40%] \x1b[32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/serial_comm.cpp.o\x1b[0m\n'}
+[1.734884] (cyberbee_driver) StdoutLine: {'line': b'[ 60%] \x1b[32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/driver_main.cpp.o\x1b[0m\n'}
+[1.736849] (cyberbee_driver) StdoutLine: {'line': b'[ 80%] \x1b[32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/data_sender.cpp.o\x1b[0m\n'}
+[1.802697] (-) TimerEvent: {}
+[1.903120] (-) TimerEvent: {}
+[2.003577] (-) TimerEvent: {}
+[2.104106] (-) TimerEvent: {}
+[2.204493] (-) TimerEvent: {}
+[2.304906] (-) TimerEvent: {}
+[2.405323] (-) TimerEvent: {}
+[2.505771] (-) TimerEvent: {}
+[2.606247] (-) TimerEvent: {}
+[2.706711] (-) TimerEvent: {}
+[2.807166] (-) TimerEvent: {}
+[2.907589] (-) TimerEvent: {}
+[3.008027] (-) TimerEvent: {}
+[3.108443] (-) TimerEvent: {}
+[3.208852] (-) TimerEvent: {}
+[3.309274] (-) TimerEvent: {}
+[3.364813] (cyberbee_driver) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/serial_comm.cpp:14\x1b[m\x1b[K:\n'}
+[3.365345] (cyberbee_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:\x1b[m\x1b[K In constructor \xe2\x80\x98\x1b[01m\x1b[KSerialPort::SerialPort(const string&, unsigned int)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[3.365583] (cyberbee_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:37:30:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[KSerialPort::serial\x1b[m\x1b[K\xe2\x80\x99 will be initialized after [\x1b[01;35m\x1b[K-Wreorder\x1b[m\x1b[K]\n'}
+[3.365729] (cyberbee_driver) StderrLine: {'line': b'   37 |     boost::asio::serial_port \x1b[01;35m\x1b[Kserial\x1b[m\x1b[K;\n'}
+[3.365849] (cyberbee_driver) StderrLine: {'line': b'      |                              \x1b[01;35m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[3.365989] (cyberbee_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:15:17:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[K  \xe2\x80\x98\x1b[01m\x1b[Kstd::string SerialPort::port\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wreorder\x1b[m\x1b[K]\n'}
+[3.366149] (cyberbee_driver) StderrLine: {'line': b'   15 |     std::string \x1b[01;35m\x1b[Kport\x1b[m\x1b[K;\n'}
+[3.366295] (cyberbee_driver) StderrLine: {'line': b'      |                 \x1b[01;35m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[3.366433] (cyberbee_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/serial_comm.cpp:31:1:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[K  when initialized here [\x1b[01;35m\x1b[K-Wreorder\x1b[m\x1b[K]\n'}
+[3.366556] (cyberbee_driver) StderrLine: {'line': b'   31 | \x1b[01;35m\x1b[KSerialPort\x1b[m\x1b[K::SerialPort(const std::string& port, unsigned int baud_rate)\n'}
+[3.366666] (cyberbee_driver) StderrLine: {'line': b'      | \x1b[01;35m\x1b[K^~~~~~~~~~\x1b[m\x1b[K\n'}
+[3.390721] (cyberbee_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/data_sender.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kuint16_t DataSender::calculateCheckSum(const string&)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[3.391205] (cyberbee_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/data_sender.cpp:22:59:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kmessage\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-parameter\x1b[m\x1b[K]\n'}
+[3.391390] (cyberbee_driver) StderrLine: {'line': b'   22 | uint16_t DataSender::calculateCheckSum(\x1b[01;35m\x1b[Kconst std::string& message\x1b[m\x1b[K) { return 0; }\n'}
+[3.391555] (cyberbee_driver) StderrLine: {'line': b'      |                                        \x1b[01;35m\x1b[K~~~~~~~~~~~~~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[3.409407] (-) TimerEvent: {}
+[3.509821] (-) TimerEvent: {}
+[3.610336] (-) TimerEvent: {}
+[3.710783] (-) TimerEvent: {}
+[3.811335] (-) TimerEvent: {}
+[3.911708] (-) TimerEvent: {}
+[4.012104] (-) TimerEvent: {}
+[4.112608] (-) TimerEvent: {}
+[4.213089] (-) TimerEvent: {}
+[4.313589] (-) TimerEvent: {}
+[4.414070] (-) TimerEvent: {}
+[4.514651] (-) TimerEvent: {}
+[4.614971] (-) TimerEvent: {}
+[4.715494] (-) TimerEvent: {}
+[4.815901] (-) TimerEvent: {}
+[4.916376] (-) TimerEvent: {}
+[5.016906] (-) TimerEvent: {}
+[5.117396] (-) TimerEvent: {}
+[5.155002] (cyberbee_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/driver_main.cpp:\x1b[m\x1b[K In function \xe2\x80\x98\x1b[01m\x1b[Kint main()\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[5.155249] (cyberbee_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/driver_main.cpp:75:10:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused variable \xe2\x80\x98\x1b[01m\x1b[Kcommand_input\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-variable\x1b[m\x1b[K]\n'}
+[5.155341] (cyberbee_driver) StderrLine: {'line': b'   75 |     char \x1b[01;35m\x1b[Kcommand_input\x1b[m\x1b[K;\n'}
+[5.155416] (cyberbee_driver) StderrLine: {'line': b'      |          \x1b[01;35m\x1b[K^~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[5.217472] (-) TimerEvent: {}
+[5.317988] (-) TimerEvent: {}
+[5.418552] (-) TimerEvent: {}
+[5.519050] (-) TimerEvent: {}
+[5.619689] (-) TimerEvent: {}
+[5.720184] (-) TimerEvent: {}
+[5.820560] (-) TimerEvent: {}
+[5.921098] (-) TimerEvent: {}
+[6.021674] (-) TimerEvent: {}
+[6.122005] (-) TimerEvent: {}
+[6.222520] (-) TimerEvent: {}
+[6.322926] (-) TimerEvent: {}
+[6.423424] (-) TimerEvent: {}
+[6.524088] (-) TimerEvent: {}
+[6.624746] (-) TimerEvent: {}
+[6.725114] (-) TimerEvent: {}
+[6.825605] (-) TimerEvent: {}
+[6.926053] (-) TimerEvent: {}
+[7.026404] (-) TimerEvent: {}
+[7.126710] (-) TimerEvent: {}
+[7.227101] (-) TimerEvent: {}
+[7.327537] (-) TimerEvent: {}
+[7.428360] (-) TimerEvent: {}
+[7.528724] (-) TimerEvent: {}
+[7.629191] (-) TimerEvent: {}
+[7.729813] (-) TimerEvent: {}
+[7.830289] (-) TimerEvent: {}
+[7.930896] (-) TimerEvent: {}
+[8.031477] (-) TimerEvent: {}
+[8.131925] (-) TimerEvent: {}
+[8.169847] (cyberbee_driver) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable cyberbee_driver_node\x1b[0m\n'}
+[8.232146] (-) TimerEvent: {}
+[8.332694] (-) TimerEvent: {}
+[8.429367] (cyberbee_driver) StdoutLine: {'line': b'[100%] Built target cyberbee_driver_node\n'}
+[8.432805] (-) TimerEvent: {}
+[8.441841] (cyberbee_driver) CommandEnded: {'returncode': 0}
+[8.476979] (cyberbee_driver) JobProgress: {'identifier': 'cyberbee_driver', 'progress': 'install'}
+[8.491790] (cyberbee_driver) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/dennis/Driver/src/ros2_ws/build/cyberbee_driver'], 'cwd': '/home/dennis/Driver/src/ros2_ws/build/cyberbee_driver', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('LANGUAGE', 'en_IL:en'), ('USER', 'dennis'), ('SSH_AGENT_PID', '1351'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/galactic/opt/yaml_cpp_vendor/lib:/opt/ros/galactic/opt/rviz_ogre_vendor/lib:/opt/ros/galactic/lib/x86_64-linux-gnu:/opt/ros/galactic/lib'), ('HOME', '/home/dennis'), ('OLDPWD', '/home/dennis'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('MANAGERPID', '1244'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/dennis/Driver/src/ros2_ws/install'), ('ROS_DISTRO', 'galactic'), ('LOGNAME', 'dennis'), ('JOURNAL_STREAM', '8:43225'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'dennis'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/galactic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/VivoBook-ASUS:@/tmp/.ICE-unix/1389,unix/VivoBook-ASUS:/tmp/.ICE-unix/1389'), ('INVOCATION_ID', 'ecac7e6898a24aa6b6b22e71860feb15'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3c4e5387_cc4c_4ac2_a774_dc26f54394f1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_IL'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.119'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/dennis/Driver/src/ros2_ws/install/cyberbee_driver:/opt/ros/galactic'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/dennis/Driver/src/ros2_ws/build/cyberbee_driver'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/galactic/lib/python3.8/site-packages'), ('COLCON', '1'), ('VTE_VERSION', '6003'), ('CMAKE_PREFIX_PATH', '/home/dennis/Driver/src/ros2_ws/install/cyberbee_driver:/opt/ros/galactic')]), 'shell': False}
+[8.501833] (cyberbee_driver) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[8.502207] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/lib/cyberbee_driver/cyberbee_driver_node\n'}
+[8.503754] (cyberbee_driver) StdoutLine: {'line': b'-- Set runtime path of "/home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/lib/cyberbee_driver/cyberbee_driver_node" to ""\n'}
+[8.503979] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/ament_index/resource_index/package_run_dependencies/cyberbee_driver\n'}
+[8.504122] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/ament_index/resource_index/parent_prefix_path/cyberbee_driver\n'}
+[8.504268] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/ament_prefix_path.sh\n'}
+[8.504362] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/ament_prefix_path.dsv\n'}
+[8.504483] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/path.sh\n'}
+[8.504611] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/path.dsv\n'}
+[8.504760] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.bash\n'}
+[8.504882] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.sh\n'}
+[8.505044] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.zsh\n'}
+[8.505143] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.dsv\n'}
+[8.505212] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/package.dsv\n'}
+[8.505321] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/ament_index/resource_index/packages/cyberbee_driver\n'}
+[8.505424] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/cmake/cyberbee_driverConfig.cmake\n'}
+[8.505577] (cyberbee_driver) StdoutLine: {'line': b'-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/cmake/cyberbee_driverConfig-version.cmake\n'}
+[8.505677] (cyberbee_driver) StdoutLine: {'line': b'-- Up-to-date: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/package.xml\n'}
+[8.507480] (cyberbee_driver) CommandEnded: {'returncode': 0}
+[8.532958] (-) TimerEvent: {}
+[8.566234] (cyberbee_driver) JobEnded: {'identifier': 'cyberbee_driver', 'rc': 0}
+[8.567350] (-) EventReactorShutdown: {}

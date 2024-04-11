@@ -1,0 +1,84 @@
+-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is GNU 9.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.1.6 (/opt/ros/galactic/share/ament_cmake/cmake)
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python3
+-- Found rclcpp: 9.2.2 (/opt/ros/galactic/share/rclcpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Found rosidl_adapter: 2.2.3 (/opt/ros/galactic/share/rosidl_adapter/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+-- Found FastRTPS: /opt/ros/galactic/include  
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 3.3.1 (/opt/ros/galactic/share/rmw_implementation_cmake/cmake)
+-- Found rmw_cyclonedds_cpp: 0.22.6 (/opt/ros/galactic/share/rmw_cyclonedds_cpp/cmake)
+-- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Found nav_msgs: 2.2.4 (/opt/ros/galactic/share/nav_msgs/cmake)
+-- Found sensor_msgs: 2.2.4 (/opt/ros/galactic/share/sensor_msgs/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/dennis/Driver/src/ros2_ws/build/cyberbee_driver
+[35m[1mScanning dependencies of target cyberbee_driver_node[0m
+[ 20%] [32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/data_receiver_ros.cpp.o[0m
+[ 40%] [32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/serial_comm.cpp.o[0m
+[ 60%] [32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/driver_main.cpp.o[0m
+[ 80%] [32mBuilding CXX object CMakeFiles/cyberbee_driver_node.dir/src/data_sender.cpp.o[0m
+In file included from [01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/serial_comm.cpp:14[m[K:
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:[m[K In constructor ‘[01m[KSerialPort::SerialPort(const string&, unsigned int)[m[K’:
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:37:30:[m[K [01;35m[Kwarning: [m[K‘[01m[KSerialPort::serial[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+   37 |     boost::asio::serial_port [01;35m[Kserial[m[K;
+      |                              [01;35m[K^~~~~~[m[K
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/../include/cyberbee_driver/serial_comm.hpp:15:17:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kstd::string SerialPort::port[m[K’ [[01;35m[K-Wreorder[m[K]
+   15 |     std::string [01;35m[Kport[m[K;
+      |                 [01;35m[K^~~~[m[K
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/serial_comm.cpp:31:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+   31 | [01;35m[KSerialPort[m[K::SerialPort(const std::string& port, unsigned int baud_rate)
+      | [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/data_sender.cpp:[m[K In member function ‘[01m[Kuint16_t DataSender::calculateCheckSum(const string&)[m[K’:
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/data_sender.cpp:22:59:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kmessage[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+   22 | uint16_t DataSender::calculateCheckSum([01;35m[Kconst std::string& message[m[K) { return 0; }
+      |                                        [01;35m[K~~~~~~~~~~~~~~~~~~~^~~~~~~[m[K
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/driver_main.cpp:[m[K In function ‘[01m[Kint main()[m[K’:
+[01m[K/home/dennis/Driver/src/ros2_ws/src/cyberbee_driver/src/driver_main.cpp:75:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kcommand_input[m[K’ [[01;35m[K-Wunused-variable[m[K]
+   75 |     char [01;35m[Kcommand_input[m[K;
+      |          [01;35m[K^~~~~~~~~~~~~[m[K
+[100%] [32m[1mLinking CXX executable cyberbee_driver_node[0m
+[100%] Built target cyberbee_driver_node
+-- Install configuration: ""
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/lib/cyberbee_driver/cyberbee_driver_node
+-- Set runtime path of "/home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/lib/cyberbee_driver/cyberbee_driver_node" to ""
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/ament_index/resource_index/package_run_dependencies/cyberbee_driver
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/ament_index/resource_index/parent_prefix_path/cyberbee_driver
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/ament_prefix_path.sh
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/ament_prefix_path.dsv
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/path.sh
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/environment/path.dsv
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.bash
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.sh
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.zsh
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/local_setup.dsv
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/package.dsv
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/ament_index/resource_index/packages/cyberbee_driver
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/cmake/cyberbee_driverConfig.cmake
+-- Installing: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/cmake/cyberbee_driverConfig-version.cmake
+-- Up-to-date: /home/dennis/Driver/src/ros2_ws/install/cyberbee_driver/share/cyberbee_driver/package.xml
