@@ -25,10 +25,11 @@ std::unique_ptr<DataSender> data_sender;
 
 enum UserCommand
 {
-    Test = 0x20,
+    TestBaudRate = 0x20,
     SetDivisionRate = 0x22,
     Confirm = 0x23,
-    ChangeBaudRate = 0x30
+    ChangeBaudRate = 0x30,
+    GpsMsg = 0x25
     // Add more commands as needed
 };
 
@@ -60,13 +61,14 @@ uint8_t baud_rate_index = 4;  // Default baud rate index for 115200
 bool testing_baud = false;
 int baud_rates[5] = { 9600, 19200, 38400, 57600, 115200 };  // Baud rates list
 bool listen_only = false;
+std::stringstream data;
 
 int main()
 {
     // Register signal SIGINT and signal handler
     signal(SIGINT, signalHandler);
 
-    std::string portName = "/dev/ttyAMA0";  // ttyAMAO is the port on Pi26
+    std::string portName = "/dev/ttyUSB0";  // ttyAMAO is the port on Pi26
     unsigned int baudRate = 115200;         // current baud rate for pi26
     char command_input;
     // Create an instance of SerialPort
@@ -94,38 +96,44 @@ int main()
                 std::cin >> command_input;
                 switch (command_input)
                 {
-                    case 't':
+                    case 'a':
                         /* TODO: SET DEVISION RATE AND SEND IT */
-                        division_rate =
-                            (division_rate + 1) % 6;  // cycle through 0 to 5
-                        data_sender->SendCommand(SetDivisionRate,
-                                                 std::to_string(division_rate));
-                        std::cout << "Set Devision Rate to " << division_rate
-                                  << std::endl;
-
+                        division_rate = (division_rate + 1) % 6;  // cycle through 0 to 5
+                        data_sender->SendCommand(SetDivisionRate, std::to_string(division_rate));
+                        std::cout << "Set Devision Rate to " << division_rate << std::endl;
                         break;
 
-                    case 'y':
+                    case 'b':
                         /* TODO: SET NEW BAUD RATE AND SEND IT */
-                        baud_rate_index =
-                            (baud_rate_index + 1) %
-                            (sizeof(baud_rates) / sizeof(baud_rates[0]));
-                        data_sender->SendCommand(
-                            ChangeBaudRate, std::to_string(baud_rate_index));
-                        std::cout << "Baud Rate Changed to: "
-                                  << baud_rates[baud_rate_index] << std::endl;
+                        baud_rate_index = (baud_rate_index + 1) % (sizeof(baud_rates) / sizeof(baud_rates[0]));
+                        data_sender->SendCommand(ChangeBaudRate, std::to_string(baud_rate_index));
+                        std::cout << "Baud Rate Changed to: " << baud_rates[baud_rate_index] << std::endl;
                         break;
 
-                    case 'z':
+                    case 'c':
                         /* TODO: START BAUD RATE TEST - requires seperate
                          * function to test message send */
-                        data_sender->SendCommand(Test, std::to_string(0));
+                        data_sender->SendCommand(TestBaudRate, std::to_string(0));
                         std::cout << "Baud Rate Test start " << std::endl;
+                        break;
+
+                    case 'd':
+                        /* TODO: START Confirm - start getting info */
+                        data_sender->SendCommand(Confirm, std::to_string(0));
+                        std::cout << "Confirm start " << std::endl;
+                        break;
+
+                    case 'e':
+                        /* TODO: Gps msg - send gps msg */
+                        //get and build the gps message
+                        data = data_sender->createGpsMsg();
+                        //send the gps message
+                        data_sender->SendCommand(GpsMsg, data.str());
+                        std::cout << "Gps msg sent " << std::endl;
                         break;
 
                     default:
                         std::cout << "Toggle listen-only mode " << std::endl;
-
                         break;
                 }
             }
