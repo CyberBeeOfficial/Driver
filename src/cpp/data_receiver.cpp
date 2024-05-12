@@ -64,7 +64,7 @@ void DataReceiver::processData()
         // This part needs to check the message and only than parse it in a different function
         std::vector<std::vector<uint8_t>> messages = serialPort_->ExtractMessageBinary();  // Assuming this method now just
                                             // extracts based on `temp_storage`
-        
+        std::cout << "got message from extract" << std::endl;
         for(auto msg = messages.begin(); msg != messages.end(); msg++)
         {
             message.assign((*msg).begin() + 1, (*msg).end() - 3); // without start byte and end byte

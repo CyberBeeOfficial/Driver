@@ -66,16 +66,19 @@ int main()
     // Register signal SIGINT and signal handler
     signal(SIGINT, signalHandler);
 
+    std::cout << "got signal" << std::endl;
     std::string portName = "/dev/ttyUSB0";  // ttyUSBO is the port on PC
     unsigned int baudRate = 115200;         // current baud rate for PC
     char command_input;
     
+    std::cout << "found USB0" << std::endl;
     // Create an instance of SerialPort
     globalSerialPort = std::make_unique<SerialPort>(portName, baudRate);
 
     // Start communication in a separate thread
     globalSerialPort->OpenSerialConnection();
 
+    std::cout << "Opened connection" << std::endl;
     data_receiver = std::make_unique<DataReceiver>(globalSerialPort.get());
     data_sender = std::make_unique<DataSender>(globalSerialPort.get());
 
@@ -83,6 +86,7 @@ int main()
     std::thread readThread(&DataReceiver::readData, data_receiver.get());
     std::thread processThread(&DataReceiver::processData, data_receiver.get());
 
+    std::cout << "started threads" << std::endl;
     // Wait for the threads to finish
     readThread.join();
     processThread.join();

@@ -497,6 +497,7 @@ std::vector<std::vector<uint8_t>> SerialPort::ExtractMessageBinary()
 
 void SerialPort::ReadFromBuffer() 
 {
+    std::cout << "inside ReadFromBuffer" << std::endl;
     boost::asio::streambuf read_buf;       // A buffer for incoming data, part of Boost.Asio
     boost::system::error_code error_code;  // Info about any error that occurs
 
@@ -504,6 +505,7 @@ void SerialPort::ReadFromBuffer()
     std::size_t n = boost::asio::read(serial, read_buf.prepare(TARGET_MESSAGE_SIZE), error_code);
     read_buf.commit(n); // Make the read data available in the input sequence
 
+    std::cout << "read data with asio" << std::endl;
     // Logging the number of bytes read for debugging purposes
     std::cout << "\nNumber of bytes been read: " << n << std::endl;
 
