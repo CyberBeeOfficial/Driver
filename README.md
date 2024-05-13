@@ -76,8 +76,9 @@ Commands follow the format `<ST>;command;data;<EN>` for both sending commands an
 - **Change Baud Rate:** `<ST>;0x30;2;<EN>` for 38400 baud rate
 - **Set Division Rate:** `<ST>;0x22;3;<EN>` for division rate 3
 - **Confirm Command:** `<ST>;0x23;0;<EN>`
+- **GPS Command:** `<ST>;0x25;0;<EN>`
 
-### Incoming Message Structure
+### Incoming Pose Message Structure
 
 Messages follow the format 
 
@@ -117,6 +118,17 @@ Checksum equals - **123**
 
 ***Checksum is calculated by summing all of the numeric ASCII values of the string message.***
 
+### Incoming GPS Message Structure
+
+Messages follow the format 
+
+`<ST>;command;seconds.nanoseconds;latitude,longitude,altitude;yaw,pitch,roll;gps_status;checksum;<EN>`, 
+
+";" is  breakdown for each component. command = 0x25.
+
+***Checksum is calculated by summing all of the numeric ASCII values of the string message.***
+
+
 ## Configuration and Startup Routine
 
 
@@ -146,7 +158,7 @@ Checksum equals - **123**
 
      **For CPP Driver First Compile**
     ```
-    /usr/bin/g++ -std=c++17 -g <Your_Path>/Driver/example/src/driver_main.cpp <Your_Path>/Driver/example/src/serial_comm.cpp <Your_Path>/Driver/example
+   /usr/bin/g++ -std=c++17 -g <Your_Path>/Driver/example/src/driver_main.cpp <Your_Path>/Driver/example/src/serial_comm.cpp <Your_Path>/Driver/example/src/data_sender.cpp <Your_Path>/Driver/example/src/data_receiver.cpp -o <Your_Path>/Driver/example/src/CppDriver
     
     ```
 
@@ -156,7 +168,7 @@ Checksum equals - **123**
     **Run CPP Driver:**    
 
     ```
-       ./example/bin/CppDriver
+       ./Driver/example/CppDriver
     
     ```
   
