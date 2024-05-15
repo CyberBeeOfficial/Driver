@@ -158,7 +158,7 @@ Messages follow the format
 
      **For CPP Driver First Compile**
     ```
-   /usr/bin/g++ -std=c++17 -g <Your_Path>/Driver/example/src/driver_main.cpp <Your_Path>/Driver/example/src/serial_comm.cpp <Your_Path>/Driver/example/src/data_sender.cpp <Your_Path>/Driver/example/src/data_receiver.cpp -o <Your_Path>/Driver/example/src/CppDriver
+   /usr/bin/g++ -std=c++17 -g <Your_Path>/Driver/example/src/driver_main.cpp <Your_Path>/Driver/example/src/serial_comm.cpp <Your_Path>/Driver/example/src/data_sender.cpp <Your_Path>/Driver/example/src/data_receiver.cpp -o <Your_Path>/Driver/example/src/<Executble_Name>
     
     ```
 
@@ -168,7 +168,7 @@ Messages follow the format
     **Run CPP Driver:**    
 
     ```
-       ./Driver/example/CppDriver
+       ./Driver/example/bin/<Executble_Name>
     
     ```
   
