@@ -46,15 +46,16 @@ BeeMX8 support USB-C connector - next release will also support the UART on the 
 
 - **Identify USB/UART Port:** Connect your Raspberry Pi 4B or other computing module to the CyberBee BeeMX8 using the appropriate USB-C or UART port connection. The port should be recognized as COMx on Windows or /dev/ttyUSBx or /dev/ttyACMx on Linux.
 
+![IMG_0337](https://github.com/CyberBeeOfficial/Driver/assets/80558934/453b5dac-6b71-4490-9e99-1665d25974fa)
+
+![Screenshot from 2024-03-07 13-52-46](https://github.com/CyberBeeOfficial/Driver/assets/80558934/014325c5-bc38-4f00-a101-039500a5a72a)
+
 - **Port Names:** 
-    -   For **UART** GPIO on Pi 4B: Use **/dev/ttyAMA0.     ** 
+    -   For **UART** GPIO on Pi 4B: Use **/dev/ttyAMA0.** 
      -  For **BeeMX8:**
            -  **Type-C Port**: **/dev/ttyUSB0** or **/dev/ttyUSB1**
             
          -  UART Connector: **/dev/ttymxc0**
-
-
-
 
 ### Verifying Connection
 
@@ -90,7 +91,7 @@ Messages are formatted to include message type, timestamp, position data, quater
 ";" is  breakdown for each component.
 
 **Components:**
-1) message_type: A byte indicating the data type, e.g., 01 for ODOMETRY, 02 for POSITION.
+1) **message_type**: A byte indicating the data type, e.g., 01 for ODOMETRY, 02 for POSITION.
 
 2) **timestamp**: A Unix timestamp in seconds with nanosec resolution.
 3
@@ -142,13 +143,17 @@ Messages follow the format
 2. Navigate to the directory containing the driver code and execute the appropriate script for your setup (Python or C++).
 
 >     <Your_Path> - The Location where you have cloned the Cyberbee Driver
+>     To get the path write pwd
 
    Use  Bash FOr Linux  or other Terminal 
 
+for the python script 
 ```
-    cd <Your_Path>/Driver/example  -- for the python script 
-
-     cd <Your_Path>/Driver/example/src -- for the cpp script
+cd <Your_Path>/Driver/example
+```
+for the cpp script
+```
+cd <Your_Path>/Driver/example/src 
 ```
 3. **Run The Driver Script**
 
@@ -157,12 +162,14 @@ Messages follow the format
         python3 python_driver.py
 
      **For CPP Driver First Compile**
+
+   Make sure to run all 5 compilation lines to create the exe file
     ```
    /usr/bin/g++ -std=c++17 -g <Your_Path>/Driver/example/src/driver_main.cpp <Your_Path>/Driver/example/src/serial_comm.cpp <Your_Path>/Driver/example/src/data_sender.cpp <Your_Path>/Driver/example/src/data_receiver.cpp -o <Your_Path>/Driver/example/src/<Executble_Name>
     
     ```
 
-* ***Make Sure you change the <YOUR_PATH> with appropriate path.***
+* ***Make Sure you change the <name_of_executable> with appropriate name.***
 
 
     **Run CPP Driver:**    
@@ -171,9 +178,7 @@ Messages follow the format
        ./Driver/example/bin/<Executble_Name>
     
     ```
-  
 
-    
 4. Execute the Test Command, then the SetDivisionRate command to start receiving position data.
 
 
