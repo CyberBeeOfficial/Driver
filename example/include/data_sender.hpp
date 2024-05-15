@@ -7,7 +7,7 @@ class DataSender
 {
    public:
     explicit DataSender(SerialPort* serialPort);
-
+    std::stringstream createGpsMsg();
     void SendCommand(uint8_t command, const std::string& data);
 
    private:

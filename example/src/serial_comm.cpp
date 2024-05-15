@@ -73,8 +73,7 @@ std::string SerialPort::ExtractMessage()
 
     if (start_pos != std::string::npos && end_pos != std::string::npos)
     {
-        std::string message =
-            temp_storage.substr(start_pos, end_pos - start_pos + 4);
+        std::string message = temp_storage.substr(start_pos, end_pos - start_pos + 4);
         temp_storage.erase(0, end_pos + 4);
         if (temp_storage.empty())
         {
@@ -89,15 +88,13 @@ std::string SerialPort::ExtractMessage()
 
 void SerialPort::ReadFromBuffer()
 {
-    boost::asio::streambuf
-        read_buf;  // A buffer for incoming data, part of Boost.Asio
+    boost::asio::streambuf read_buf;  // A buffer for incoming data, part of Boost.Asio
     boost::system::error_code error_code;  // info about any error that occurs
 
     // Read data into the buffer. Since we don't have a specific delimiter that
     // works with read_until, we read available data and then process it to find
     // our message.
-    std::size_t n =
-        boost::asio::read(serial, read_buf.prepare(1024), error_code);
+    std::size_t n = boost::asio::read(serial, read_buf.prepare(1024), error_code);
     read_buf.commit(n);  // Make read data available in the input sequence.
 
     // TODO: n is number of bytes read - find a usage or remove
@@ -126,7 +123,6 @@ void SerialPort::ReadFromBuffer()
 }
 
 void SerialPort::NotifyDataAvailable()
-
 {
     std::lock_guard<std::mutex> lock(mtx);  // Lock the mutex
     data_available = true;  // Set the flag indicating data is available
@@ -135,15 +131,17 @@ void SerialPort::NotifyDataAvailable()
 
 bool SerialPort::IsSerialConnectionOpen() const { return serial.is_open(); }
 
-
 bool SerialPort::WriteToBuffer(const std::string &data)
 {
-    try {
-            // Write data synchronously
-            boost::asio::write(serial, boost::asio::buffer(data));
-            return true; // Data was successfully written
-        } catch (const boost::system::system_error& e) {
-            std::cerr << "Failed to write to serial port: " << e.what() << std::endl;
-            return false; // An error occurred
-        }
+    try 
+    {
+        // Write data synchronously
+        boost::asio::write(serial, boost::asio::buffer(data));
+        return true; // Data was successfully written
+    } 
+    catch (const boost::system::system_error& e) 
+    {
+        std::cerr << "Failed to write to serial port: " << e.what() << std::endl;
+        return false; // An error occurred
+    }
 }

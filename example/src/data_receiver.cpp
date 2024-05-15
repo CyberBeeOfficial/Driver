@@ -66,11 +66,11 @@ void DataReceiver::processData()
 {
     while (!stopThreads)
     {
-        std::string message =
-            serialPort_->ExtractMessage();  // Assuming this method now just
-                                            // extracts based on `temp_storage`
+        std::string message = serialPort_->ExtractMessage();  // Assuming this method now just
+                                                              // extracts based on `temp_storage`
         if (!message.empty())
         {
+            //add the seperation to odometry message and ACK message
             ParseAndPrintMsg(message);
         }
     }
@@ -82,8 +82,7 @@ void DataReceiver::stop()
     serialPort_->NotifyDataAvailable();  // You might need to implement this
 }
 
-uint16_t DataReceiver::calculateCheckSum(
-    std::array<std::string, 8>& sliced_msg_parts)
+uint16_t DataReceiver::calculateCheckSum(std::array<std::string, 8>& sliced_msg_parts)
 {
     std::string concatenatedParts =
         sliced_msg_parts[1] + ";" + sliced_msg_parts[2] + ";" +
@@ -98,8 +97,7 @@ uint16_t DataReceiver::calculateCheckSum(
     return checksum;
 }
 
-std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
-    const std::string& message)
+std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(const std::string& message)
 {
     /// veriables to hold sections of msg
     std::vector<std::string> messageParts = { "prefix_value",
@@ -126,8 +124,7 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
     try
     {
         int parts_counter = 0;
-        while (std::getline(PartsStream, part, delimiter) &&
-               index < sliced_msg_parts.size())
+        while (std::getline(PartsStream, part, delimiter) && index < sliced_msg_parts.size())
         {
             sliced_msg_parts[index++] = part;
             parts_counter += 1;
@@ -135,8 +132,7 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
 
         if (parts_counter != 8)
         {
-            throw std::runtime_error("Expected 8 parts in the message, found " +
-                                     std::to_string(parts_counter));
+            throw std::runtime_error("Expected 8 parts in the message, found " + std::to_string(parts_counter));
         }
 
         std::string msg_prefix = sliced_msg_parts[0];
@@ -145,8 +141,7 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
         std::string position_data = sliced_msg_parts[3];
         std::string quaternion_data = sliced_msg_parts[4];
         std::string velocity_data = sliced_msg_parts[5];
-        uint16_t received_checksum =
-            static_cast<uint16_t>(std::stoul(sliced_msg_parts[6]));
+        uint16_t received_checksum = static_cast<uint16_t>(std::stoul(sliced_msg_parts[6]));
         std::string msgSuffix = sliced_msg_parts[7];
 
         // function to parse a cooma seperated string to 3 float tuple
@@ -162,8 +157,8 @@ std::array<std::string, 8> DataReceiver::ParseAndPrintMsg(
         {
             throw std::runtime_error("Checksums Don't Match");
         }
-        PoseMessage my_message(msg_type, timestamp, position, quaternion,
-                               velocity);
+        
+        PoseMessage my_message(msg_type, timestamp, position, quaternion, velocity);
         return sliced_msg_parts;
     }
 

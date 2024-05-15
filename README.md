@@ -77,8 +77,9 @@ Commands follow the format `<ST>;command;data;<EN>` for both sending commands an
 - **Change Baud Rate:** `<ST>;0x30;2;<EN>` for 38400 baud rate
 - **Set Division Rate:** `<ST>;0x22;3;<EN>` for division rate 3
 - **Confirm Command:** `<ST>;0x23;0;<EN>`
+- **GPS Command:** `<ST>;0x25;0;<EN>`
 
-### Incoming Message Structure
+### Incoming Pose Message Structure
 
 Messages follow the format 
 
@@ -118,6 +119,17 @@ Checksum equals - **123**
 
 ***Checksum is calculated by summing all of the numeric ASCII values of the string message.***
 
+### Incoming GPS Message Structure
+
+Messages follow the format 
+
+`<ST>;command;seconds.nanoseconds;latitude,longitude,altitude;yaw,pitch,roll;gps_status;checksum;<EN>`, 
+
+";" is  breakdown for each component. command = 0x25.
+
+***Checksum is calculated by summing all of the numeric ASCII values of the string message.***
+
+
 ## Configuration and Startup Routine
 
 
@@ -153,8 +165,8 @@ cd <Your_Path>/Driver/example/src
 
    Make sure to run all 5 compilation lines to create the exe file
     ```
-    DRIVER_DIR=$(find / -type d -name "Driver" 2>/dev/null | head -n 1)
-    /usr/bin/g++ -std=c++17 -g "$DRIVER_DIR"/example/src/*.cpp -o "$DRIVER_DIR"/example/bin/name_of_executable -lboost_system -pthread
+   /usr/bin/g++ -std=c++17 -g <Your_Path>/Driver/example/src/driver_main.cpp <Your_Path>/Driver/example/src/serial_comm.cpp <Your_Path>/Driver/example/src/data_sender.cpp <Your_Path>/Driver/example/src/data_receiver.cpp -o <Your_Path>/Driver/example/src/<Executble_Name>
+    
     ```
 
 * ***Make Sure you change the <name_of_executable> with appropriate name.***
@@ -163,7 +175,8 @@ cd <Your_Path>/Driver/example/src
     **Run CPP Driver:**    
 
     ```
-    ./example/bin/<name_of_executable>
+       ./Driver/example/bin/<Executble_Name>
+    
     ```
 
 4. Execute the Test Command, then the SetDivisionRate command to start receiving position data.
