@@ -23,15 +23,15 @@ std::unique_ptr<SerialPort> globalSerialPort;
 std::unique_ptr<DataReceiver> data_receiver;
 std::unique_ptr<DataSender> data_sender;
 
-enum UserCommand
-{
-    TestBaudRate = 0x20,
-    SetDivisionRate = 0x22,
-    Confirm = 0x23,
-    ChangeBaudRate = 0x30,
-    GpsMsg = 0x25
-    // Add more commands as needed
-};
+// enum UserCommand
+// {
+//     TestBaudRate = 0x20,
+//     SetDivisionRate = 0x22,
+//     Confirm = 0x23,
+//     ChangeBaudRate = 0x30,
+//     GpsMsg = 0x25
+//     // Add more commands as needed
+// };
 
 void signalHandler(int signum)
 {

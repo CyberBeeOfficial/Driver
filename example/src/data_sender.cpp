@@ -15,15 +15,15 @@
 #include <iostream>
 #include <sstream>
 
-enum UserCommand
-{
-    TestBaudRate = 0x20,
-    SetDivisionRate = 0x22,
-    Confirm = 0x23,
-    ChangeBaudRate = 0x30,
-    GpsMsg = 0x25
-    // Add more commands as needed
-};
+// enum UserCommand
+// {
+//     TestBaudRate = 0x20,
+//     SetDivisionRate = 0x22,
+//     Confirm = 0x23,
+//     ChangeBaudRate = 0x30,
+//     GpsMsg = 0x25
+//     // Add more commands as needed
+// };
 
 DataSender::DataSender(SerialPort* serialPort) : serialPort(serialPort)
 {
@@ -40,8 +40,9 @@ uint16_t DataSender::calculateCheckSum(const std::string& message)
     return checksum;
 }
 
-void DataSender::SendCommand(uint8_t command, const std::string& data)
+void DataSender::SendCommand(UserCommand command, const std::string& data)
 {
+    // std::cout << << command << std::endl;
     std::stringstream temp_ss;
     std::stringstream full_ss;
     uint16_t chksum;
@@ -49,11 +50,11 @@ void DataSender::SendCommand(uint8_t command, const std::string& data)
     if ((serialPort) && (serialPort->IsSerialConnectionOpen()))
     {
         std::cout << "Serial connection is open." << std::endl;
-        temp_ss << command << ";" << data;
+        temp_ss <<  command << ";" << data;
         chksum = DataSender::calculateCheckSum(temp_ss.str());
         std::string chksumStr = std::to_string(chksum);
 
-        full_ss << "<ST>;" << command << ";" << data << ";" << chksumStr << ";<EN>";
+        full_ss << "<ST>;" <<  command << ";" << data << ";" << chksumStr << ";<EN>";
         std::cout << full_ss.str() << std::endl;
         auto write_success = serialPort->WriteToBuffer(full_ss.str());
         if (write_success)

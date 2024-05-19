@@ -99,7 +99,7 @@ void SerialPort::ReadFromBuffer()
 
     // TODO: n is number of bytes read - find a usage or remove
 
-    std::cout << "number of bytes been read: " << n << std::endl;
+    // std::cout << "number of bytes been read: " << n << std::endl;
 
     // Check if an error occurred during the read operation, excluding
     // end-of-file (EOF) which is normal for last read
