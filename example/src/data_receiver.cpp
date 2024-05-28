@@ -85,9 +85,11 @@ void DataReceiver::stop()
 uint16_t DataReceiver::calculateCheckSum(std::array<std::string, 8>& sliced_msg_parts)
 {
     std::string concatenatedParts =
-        sliced_msg_parts[1] + ";" + sliced_msg_parts[2] + ";" +
-        sliced_msg_parts[3] + ";" + sliced_msg_parts[4] + ";" +
-        sliced_msg_parts[5] + ";";
+        sliced_msg_parts[1] + ";" + // command
+        sliced_msg_parts[2] + ";" + // timestamp
+        sliced_msg_parts[3] + ";" + // gps_coordinates
+        sliced_msg_parts[4] + ";" + // yaw_pitch_roll
+        sliced_msg_parts[5] + ";";  // gps_status
 
     uint16_t checksum = 0;
     for (char c : concatenatedParts)
