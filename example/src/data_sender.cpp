@@ -15,15 +15,13 @@
 #include <iostream>
 #include <sstream>
 
-enum UserCommand
-{
-    TestBaudRate = 0x20,
-    SetDivisionRate = 0x22,
-    Confirm = 0x23,
-    ChangeBaudRate = 0x30,
-    GpsMsg = 0x25,
-    EstReset = 0x27
-    // Add more commands as needed
+enum UserCommand : uint8_t {
+    TestBaudRate = 30,
+    SetDivisionRate = 32,
+    Confirm = 34,
+    ChangeBaudRate = 36,
+    GpsMsg = 37,
+    FtReset = 39
 };
 
 DataSender::DataSender(SerialPort* serialPort) : serialPort(serialPort)

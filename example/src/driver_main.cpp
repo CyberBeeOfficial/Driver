@@ -23,15 +23,13 @@ std::unique_ptr<SerialPort> globalSerialPort;
 std::unique_ptr<DataReceiver> data_receiver;
 std::unique_ptr<DataSender> data_sender;
 
-enum UserCommand
-{
-    TestBaudRate = 0x20,
-    SetDivisionRate = 0x22,
-    Confirm = 0x23,
-    ChangeBaudRate = 0x30,
-    GpsMsg = 0x25,
-    EstReset = 0x27
-    // Add more commands as needed
+enum UserCommand : uint8_t {
+    TestBaudRate = 30,
+    SetDivisionRate = 32,
+    Confirm = 34,
+    ChangeBaudRate = 36,
+    GpsMsg = 37,
+    FtReset = 39
 };
 
 void signalHandler(int signum)
@@ -136,7 +134,7 @@ int main()
                         break;
                     
                     case 'r':
-                        data_sender->SendCommand(EstReset, "1", loop);
+                        data_sender->SendCommand(FtReset, "1", loop);
                         std::cout << "Reset msg sent " << std::endl;
                         command_input = 'e';
                         break;
