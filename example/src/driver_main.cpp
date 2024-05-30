@@ -124,7 +124,6 @@ int main()
                         break;
 
                     case 'e':
-                        loop = 1;
                         /* TODO: Gps msg - send gps msg */
                         //get and build the gps message
                         data = data_sender->createGpsMsg();
@@ -136,7 +135,9 @@ int main()
                     case 'r':
                         data_sender->SendCommand(FtReset, "1", loop);
                         std::cout << "Reset msg sent " << std::endl;
-                        command_input = 'e';
+                        data = data_sender->createGpsMsg();
+                        data_sender->SendCommand(GpsMsg, data.str(), loop);
+                        std::cout << "Gps msg sent " << std::endl;
                         break;
 
                     default:
