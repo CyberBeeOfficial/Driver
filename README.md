@@ -222,3 +222,5 @@ Contact details and support channels for assistance.
 
 Additional resources, including sample code, compatibility lists, and a comprehensive change log.
 
+/usr/bin/g++ -std=c++17 -g /root/Driver/example/src/driver_main.cpp /root/Driver/example/src/serial_comm.cpp /root/Driver/example/src/data_sender.cpp /root/Driver/example/src/data_receiver.cpp -o /root/Driver/example/src/CppDrivr -pthread
+
